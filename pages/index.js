@@ -18,8 +18,8 @@ const Home = () => {
       </Head>
 
       <main className={`${styles.main}`}>
-        {/* <Hello /> */}
-        <HeaderBarOff />
+        <Hello />
+        {/* <HeaderBarOff /> */}
       </main>
 
       

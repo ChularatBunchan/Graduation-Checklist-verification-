@@ -1,10 +1,13 @@
 import styles from '@/styles/Headerbar.module.css';
 import Link from 'next/link';
 import React, { useEffect } from 'react';
-import { AiFillCalculator ,AiOutlineMenu } from "react-icons/ai";
-import { FaFile , FaCircleCheck } from "react-icons/fa6";
-import { FaUserCircle } from "react-icons/fa";
+import { AiOutlineMenu } from "react-icons/ai";
+import { FaCircleCheck } from "react-icons/fa6";
+import { FaUserCircle ,FaRegCheckCircle  } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
+import { IoAddCircleOutline } from "react-icons/io5";
+
+import { TbEdit } from "react-icons/tb";
 
 const HeaderBarOff = () => {
   const showSidebar = () => {
@@ -40,15 +43,15 @@ const HeaderBarOff = () => {
         <div className={`${styles.menucontent}`}>
           <ul className={`${styles.menuitem}`}>
             <li>
-              <FaFile size={23} />
-              <Link href="Check" className={`${styles.item}`}> ตรวจสอบการจบการศึกษา</Link>
+              <IoAddCircleOutline size={23} />
+              <Link href="Check" className={`${styles.item}`}> เพิ่มรายวิชา</Link>
             </li>
             <li>
-              <AiFillCalculator  size={23} />
-              <Link href="Calculate" className={`${styles.item}`}> คำนวนเกรดเฉลี่ย</Link>
+              <TbEdit   size={23} />
+              <Link href="Calculate" className={`${styles.item}`}> แก้ไขรายวิชา</Link>
             </li>
             <li>
-              <FaCircleCheck size={23} />
+              <FaRegCheckCircle  size={23} />
               <Link href="#" className={`${styles.item}`}> ตรวจสอบสถานะการจบการศึกษา</Link>
             </li>
             <li>
