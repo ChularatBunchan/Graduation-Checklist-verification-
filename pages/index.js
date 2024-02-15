@@ -3,6 +3,7 @@ import styles from '@/styles/Home.module.css';
 import React from 'react';
 import Hello from './component/Hello';
 import HeaderBarOff from './component/Officer/HeaderbarOff';
+import Profile from './component/Profile';
 
 const Home = () => {
 
@@ -19,7 +20,6 @@ const Home = () => {
 
       <main className={`${styles.main}`}>
         <Hello />
-        {/* <HeaderBarOff /> */}
       </main>
 
       
