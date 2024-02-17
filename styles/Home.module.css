@@ -153,7 +153,6 @@
   background-color: #ffffff;
   border-radius: 1rem;
   box-shadow: 5px 5px 60px #f1a27a;
-  height: max-content;
 }
 
 .CalHead{
@@ -166,10 +165,31 @@
   padding: 2rem;
   background-color: #EB6725;
   border-radius: 1rem;
-  border: 1px solid;
   border-spacing: 5px 1rem;
   display: flex;
   justify-content: center;
+}
+.CalBox2 {
+  margin: 1%;
+  padding: 2rem;
+  border-radius: 1rem;
+  display: flex;
+  float: left;
+}
+
+.CalBox2 label{
+  color: #07AA9F;
+  font-weight: bolder;
+}
+
+.CalBox2 input {
+   width: 20vmax;
+  padding: 1rem;
+  border-radius: 1rem;
+  border: 1.5px solid #EB6725;
+  color: #07AA9F;
+  text-align: center;
+  font-size: 2rem;
 }
 
 .Calflex {
@@ -179,17 +199,21 @@
   justify-content: center;
 
 }
+.CalBox0 {
+  color: red;
+}
 
 .CalBox label{
   color: #ffffff;
 }
 
 .CalBox input {
-   width: 20vmax;
   padding: 1rem;
   border-radius: 1rem;
   border: 2px solid #07AA9F;
   color: #07AA9F;
+  text-align: center;
+  font-size: 1rem;
 }
 
 .CalBox1 {
@@ -263,6 +287,13 @@
   border-radius: 5px;
   cursor: pointer;
   font-size: 1rem;
+}
+
+.TableCheck {
+  color: #07AA9F;
+}
+.TableCheck tr{
+  padding: 3rem;
 }
 
 

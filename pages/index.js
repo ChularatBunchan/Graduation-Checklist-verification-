@@ -4,6 +4,9 @@ import React from 'react';
 import Hello from './component/Hello';
 import HeaderBarOff from './component/Officer/HeaderbarOff';
 import Profile from './component/Profile';
+import AddSub from './component/Officer/AddSub';
+import OffCheck from './component/Officer/OffCheck';
+import StuCheck from './component/StuCheck';
 
 const Home = () => {
 
@@ -19,7 +22,8 @@ const Home = () => {
       </Head>
 
       <main className={`${styles.main}`}>
-        <Hello />
+        {/* <Hello /> */}
+        <StuCheck />
       </main>
 
       

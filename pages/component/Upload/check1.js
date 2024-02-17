@@ -38,13 +38,25 @@ const Check1 = () => {
 
     const handleUpload = () => {
         if (uploadedFile) {
-            // ทำสิ่งที่คุณต้องการกับไฟล์ที่ถูกลากมา ส่งไปที่เซิร์ฟเวอร์
-            console.log('Uploaded PDF file:', uploadedFile.name);
-            console.log('File content:', fileContent);
+            // Send the PDF file to the server
+            const formData = new FormData();
+            formData.append('file', uploadedFile);
+    
+            fetch('http://localhost:5000/extract', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Handle the extracted data here
+                console.log('Extracted data:', data);
+            })
+            .catch(error => console.error('Error:', error));
         } else {
             alert('Please drop a PDF file to upload.');
         }
     };
+    
 
     return (
         <center>

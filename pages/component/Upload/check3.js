@@ -39,13 +39,26 @@ const Check3 = () => {
 
     const handleUpload = () => {
         if (uploadedFile) {
-            // ทำสิ่งที่คุณต้องการกับไฟล์ที่ถูกลากมา ส่งไปที่เซิร์ฟเวอร์
-            console.log('Uploaded PDF file:', uploadedFile.name);
-            console.log('File content:', fileContent);
+            // สร้าง form data เพื่อส่งไฟล์
+            const formData = new FormData();
+            formData.append('file', uploadedFile);
+    
+            // ส่งไฟล์ไปยังเซิร์ฟเวอร์ Flask ที่รอรับไฟล์
+            fetch('http://localhost:5000/extract', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // ดำเนินการต่อที่นี่
+                console.log('Extracted data:', data);
+            })
+            .catch(error => console.error('Error:', error));
         } else {
-            alert('Please drop a JPEG or PNG file to upload.');
+            alert('Please drop a PDF file to upload.');
         }
     };
+    
 
     const handleChange = (value) => {
         console.log('selected ' + value);

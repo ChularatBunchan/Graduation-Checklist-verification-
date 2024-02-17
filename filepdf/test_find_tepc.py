@@ -1,9 +1,30 @@
-import fitz 
+from flask import Flask, request, jsonify
+import fitz
 
-def extract(pdf_path):
-    doc = fitz.open(pdf_path)
+app = Flask(__name__)
+
+@app.route('/extract', methods=['POST'])
+def extract_text():
+    if 'file' not in request.files:
+        return jsonify({'error': 'No file part'})
+
+    pdf_file = request.files['file']
+
+    if pdf_file.filename == '':
+        return jsonify({'error': 'No selected file'})
+
+    # ดำเนินการด้วยไฟล์ PDF ที่ได้รับมา
+    extracted_data = extract(pdf_file)
+
+    # ส่งข้อมูลที่ถูกแยกออกไป
+    return jsonify(extracted_data)
+
+def extract(pdf_file):
+    doc = fitz.open(pdf_file)
 
     courses_to_find = ["CEFR Level Achievement:"]
+
+    extracted_data = {}
 
     for course_to_find in courses_to_find:
         extracted_text = ""
@@ -19,12 +40,11 @@ def extract(pdf_path):
                     end_index_col1 = text.find("\n", start_index)
                     extracted_text += text[end_index_col1 + 1:].strip()
 
-            print(f"{course_to_find}: {extracted_text[:4]}")
+        extracted_data[course_to_find] = extracted_text[:4]
 
     doc.close()
 
-pdf_path = 'KMUTNB-TEPC.pdf'
+    return extracted_data
 
-extract(pdf_path)
-
-
+if __name__ == '__main__':
+    app.run(port=5000)

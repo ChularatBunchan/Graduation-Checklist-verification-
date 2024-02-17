@@ -1,30 +1,39 @@
-import fitz 
+from flask import Flask, request, jsonify
+import fitz
 
-def extract(pdf_path):
-    doc = fitz.open(pdf_path)
+app = Flask(__name__)
 
-    courses_to_find = ["EMBEDDED SYSTEM DESIGN",  "OBJECT-ORIENTED PROGRAMMING" , "DIGITAL CIRCUIT DESIGN"]
+@app.route('/extract', methods=['POST'])
+def extract_text():
+    if 'file' not in request.files:
+        return jsonify({'error': 'No file part'})
 
-    for course_to_find in courses_to_find:
-        extracted_text = ""
+    pdf_file = request.files['file']
 
-        for page_num in range(doc.page_count):
-            page = doc[page_num]
-            text = page.get_text()
+    if pdf_file.filename == '':
+        return jsonify({'error': 'No selected file'})
 
-            if "COURSE NO." in text:
-                start_index = text.find(course_to_find)
+    courses_to_find = ["EMBEDDED SYSTEM DESIGN", "OBJECT-ORIENTED PROGRAMMING", "DIGITAL CIRCUIT DESIGN"]
+    extracted_texts = {}
 
-                if start_index != -1:
-                    end_index_col1 = text.find("\n", start_index)
-                    extracted_text += text[end_index_col1 + 1:].strip()
+    with fitz.open(pdf_file) as doc:
+        for course_to_find in courses_to_find:
+            extracted_text = ""
 
-        print(f"{course_to_find}: {extracted_text[:4]}")
+            for page_num in range(doc.page_count):
+                page = doc[page_num]
+                text = page.get_text()
 
-    doc.close()
+                if "COURSE NO." in text:
+                    start_index = text.find(course_to_find)
 
-pdf_path = 'Transcript.pdf'
+                    if start_index != -1:
+                        end_index_col1 = text.find("\n", start_index)
+                        extracted_text += text[end_index_col1 + 1:].strip()
 
-extract(pdf_path)
+            extracted_texts[course_to_find] = extracted_text[:4]
 
+    return jsonify(extracted_texts)
 
+if __name__ == '__main__':
+    app.run(port=5000)
