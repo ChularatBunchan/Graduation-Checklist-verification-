@@ -22,8 +22,7 @@ const Home = () => {
       </Head>
 
       <main className={`${styles.main}`}>
-        {/* <Hello /> */}
-        <StuCheck />
+        <Hello />
       </main>
 
       
