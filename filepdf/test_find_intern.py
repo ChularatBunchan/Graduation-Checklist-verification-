@@ -20,11 +20,11 @@ def extract(pdf_path):
                     extracted_text += text[end_index_col1 + 1:].strip()
 
         # print(f"{course_to_find}: {extracted_text[:4]}")
-        print("ผ่านการฝึกงานฉแล้ว")
+        print("ผ่านการฝึกงานแล้ว")
 
     doc.close()
 
-pdf_path = '243จุฬารัตน์_6304062616072.pdf'
+pdf_path = 'ใบตรวจปริญญานิพนธ์CSB.pdf'
 
 extract(pdf_path)
 

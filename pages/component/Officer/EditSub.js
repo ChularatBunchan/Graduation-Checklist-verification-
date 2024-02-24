@@ -19,7 +19,7 @@ const EditSub = () => {
                     <i className="fa-solid fa-circle-chevron-left"></i>
                 </span><br></br>
                 <div style={{ display: "flex" }}>
-                    <h1>เพิ่มรายวิชา ภาษาอังกฤษ</h1><br />
+                    <h1>แก้ไขรายวิชา ภาษาอังกฤษ</h1><br />
                 </div>
                 <div>
                      {/* ตารางดึงจากดาต้าเบสแล้วขึ้นวิชารหัสวิชาทั้งหมด ข้างล่างถึงเป็นส่วนที่ให้แก้ */}

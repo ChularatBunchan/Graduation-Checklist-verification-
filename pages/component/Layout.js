@@ -1,6 +1,7 @@
 import HeaderBar from "./Headerbar";
 import styles from '@/styles/Home.module.css';
 import { FaLocationDot, FaPhone } from "react-icons/fa6";
+import HeaderbarForlogin from "./HeaderbarForlogin";
 
 const Layout = ({ children }) => {
     return (

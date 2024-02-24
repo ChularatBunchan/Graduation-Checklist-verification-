@@ -122,6 +122,7 @@
   background-color: #ffffff;
   border-radius: 1rem;
   box-shadow: 5px 5px 60px #f1a27a;
+  width: max-content;
 }
 .Login input {
   width: 25vmax;
@@ -131,7 +132,7 @@
   border: 2px solid #07AA9F;
   color: #07AA9F;
   background-color: #F9F9F9;
-  font-size: 2rem;
+  font-size: 1rem;
 }
 .Login label{
   color: #07AA9F;
@@ -166,7 +167,6 @@
   background-color: #EB6725;
   border-radius: 1rem;
   border-spacing: 5px 1rem;
-  display: flex;
   justify-content: center;
 }
 .CalBox2 {
@@ -189,14 +189,13 @@
   border: 1.5px solid #EB6725;
   color: #07AA9F;
   text-align: center;
-  font-size: 2rem;
+  font-size: 1rem;
 }
 
 .Calflex {
   display: flex;
   color: #ffffff;
   justify-content: space-around;
-  justify-content: center;
 
 }
 .CalBox0 {
@@ -208,12 +207,12 @@
 }
 
 .CalBox input {
-  padding: 1rem;
+  padding: .2rem;
   border-radius: 1rem;
   border: 2px solid #07AA9F;
   color: #07AA9F;
   text-align: center;
-  font-size: 1rem;
+  height: 2rem;
 }
 
 .CalBox1 {
@@ -266,7 +265,11 @@
   cursor: pointer;
 }
 
-
+.select{
+  border-radius: .5rem;
+  padding: .5rem;
+  color: #07AA9F;
+}
 
 .Select {
   font-size: 1rem;

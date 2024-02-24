@@ -2,11 +2,7 @@ import Head from 'next/head';
 import styles from '@/styles/Home.module.css';
 import React from 'react';
 import Hello from './component/Hello';
-import HeaderBarOff from './component/Officer/HeaderbarOff';
-import Profile from './component/Profile';
-import AddSub from './component/Officer/AddSub';
-import OffCheck from './component/Officer/OffCheck';
-import StuCheck from './component/StuCheck';
+import Login from './component/Login';
 
 const Home = () => {
 
@@ -24,8 +20,6 @@ const Home = () => {
       <main className={`${styles.main}`}>
         <Hello />
       </main>
-
-      
     </div>
   );
 }

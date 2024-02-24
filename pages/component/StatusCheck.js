@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from '@/styles/Headerbar.module.css'
 
-const StuCheck = () => {
+const StatusCheck = () => {
     return (
         <center style={{marginTop:"2rem"}}>
             <div className={`${styles.content}`}>
@@ -97,4 +97,4 @@ const StuCheck = () => {
 //     };
 // }
 
-export default StuCheck;
+export default StatusCheck;

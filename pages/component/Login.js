@@ -3,19 +3,19 @@ import { Button } from '@material-tailwind/react';
 
 const Login = () => {
     return (
-        <div className={`${styles.Login}`}>
+        <center>
+           <div className={`${styles.Login}`}>
             <form>
-                <center>
                     <label>ICIT Account</label><br />
                     <input></input><br />
                     <label>Password</label><br />
-                    <input></input><br />
+                    <input type="password"></input><br />
                     <h5>forgot password?</h5>
-                    <Button>Login</Button>
-                </center>
+                    <Button>Sign in</Button>
             </form>
-
-        </div>
+        </div> 
+        </center>
+        
     )
 }
 export default Login;
