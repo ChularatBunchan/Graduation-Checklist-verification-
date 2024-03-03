@@ -34,21 +34,23 @@ const Check1 = () => {
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop, accept: '.pdf' });
 
-    const handleUpload = () => {
+    const handleUpload = async () => {
         if (uploadedFile) {
             const formData = new FormData();
             formData.append('file', uploadedFile);
-    
-            fetch('http://localhost:5000/extract', {
+
+            const response = await fetch('http://localhost:5000/extract', {
                 method: 'POST',
                 body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Handle the extracted data here
+            });
+
+            if (response.ok) {
+                const data = await response.json();
                 console.log('Extracted data:', data);
-            })
-            .catch(error => console.error('Error:', error));
+                // อัพโหลดข้อมูลที่ได้ลง MongoDB
+            } else {
+                console.error('Failed to extract data.');
+            }
         } else {
             alert('Please drop a PDF file to upload.');
         }
