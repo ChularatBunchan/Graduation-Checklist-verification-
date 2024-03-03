@@ -16,6 +16,7 @@ const Hello = () => {
                             <tr>
                                 <th>รหัสวิชา</th>
                                 <th>ชื่อวิชา</th>
+                                <th>ปีการศึกษา</th>
                             </tr>
                         </thead>
                         <tbody>

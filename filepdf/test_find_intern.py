@@ -2,8 +2,7 @@ import fitz
 
 def extract(pdf_path):
     doc = fitz.open(pdf_path)
-
-    courses_to_find = ["นักศึกษาได้ผ่านการฝึกงานภาคสนามตามหลักสูตรที่กำหนด"]
+    courses_to_find = ["EMBEDDED SYSTEM DESIGN", "OBJECT-ORIENTED PROGRAMMING", "DIGITAL CIRCUIT DESIGN"]
 
     for course_to_find in courses_to_find:
         extracted_text = ""

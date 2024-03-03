@@ -6,17 +6,6 @@ import { FaUserCircle, FaRegCheckCircle, FaRegFile } from "react-icons/fa";
 import { CiCalculator2 } from "react-icons/ci";
 import { FiLogOut } from "react-icons/fi";
 
-// Moved ProfileInfoPopup to a separate component
-const ProfileInfoPopup = ({ profileInfo }) => {
-  return (
-    <div className={`${styles.popup}`}>
-      <p>ชื่อ: {profileInfo.name}</p>
-      <p>อีเมลล์: {profileInfo.email}</p>
-      <p>ออกจากระบบ</p>
-    </div>
-  );
-};
-
 const HeaderBar = () => {
   const showSidebar = () => {
     var sidebar = document.getElementById('sidebar2');
@@ -82,7 +71,7 @@ const HeaderBar = () => {
             </li>
             <li>
               <FiLogOut size={23} />
-              <Link href="#" className={`${styles.item}`}> ออกจากระบบ</Link>
+              <Link href="/Hello" className={`${styles.item}`}> ออกจากระบบ</Link>
             </li>
           </ul>
         </div>

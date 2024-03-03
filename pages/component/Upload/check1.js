@@ -1,5 +1,5 @@
 import styles from '@/styles/Home.module.css'
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import { useDropzone } from 'react-dropzone';
 import { FaArrowCircleRight,FaArrowCircleLeft } from "react-icons/fa";
@@ -7,16 +7,14 @@ import { FaArrowCircleRight,FaArrowCircleLeft } from "react-icons/fa";
 const Check1 = () => {
 
     const router = useRouter();
-
     const handleNextButtonClick = () => {
       console.log("Next button clicked!");
       router.push('/component/Upload/check2');
-    //   เหลือใส่ layout
     };
     const handleBackButtonClick = () => {
         console.log("Next button clicked!");
         router.push('/component/Hello');
-      //   เหลือใส่ layout
+      
       }
 
     const [uploadedFile, setUploadedFile] = useState(null);
@@ -38,7 +36,6 @@ const Check1 = () => {
 
     const handleUpload = () => {
         if (uploadedFile) {
-            // Send the PDF file to the server
             const formData = new FormData();
             formData.append('file', uploadedFile);
     
@@ -56,6 +53,8 @@ const Check1 = () => {
             alert('Please drop a PDF file to upload.');
         }
     };
+    
+    
     
 
     return (
