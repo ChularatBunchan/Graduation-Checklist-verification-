@@ -1,9 +1,8 @@
 import styles from '@/styles/Home.module.css'
-import React, { useState, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useDropzone } from 'react-dropzone';
 import { FaArrowCircleRight,FaArrowCircleLeft } from "react-icons/fa";
-
+import axios from 'axios';
 
 const Check4 = () => {
     const router = useRouter();
@@ -19,39 +18,58 @@ const Check4 = () => {
         //   เหลือใส่ layout
         }
 
-    const [uploadedFile, setUploadedFile] = useState(null);
-    const [fileContent, setFileContent] = useState('');
-
-    const onDrop = useCallback((acceptedFiles) => {
-        const file = acceptedFiles[0];
-        setUploadedFile(file);
-
-        const reader = new FileReader();
-        reader.onload = (event) => {
-            const content = event.target.result;
-            setFileContent(content);
+        const [file, setFile] = useState(null);
+        const [pdfData, setPdfData] = useState(null);
+        const [uploadStatus, setUploadStatus] = useState(null);
+        const [cefrLevel, setCefrLevel] = useState("TOEIC"); // Default value
+    
+        useEffect(() => {
+            getPdf();
+        }, []);
+    
+        const getPdf = async () => {
+            try {
+                const result = await axios.get("http://localhost:8001/uploadeng");
+                setPdfData(result.data.data);
+            } catch (error) {
+                console.error("Error fetching PDF data: ", error.message);
+            }
         };
-        reader.readAsText(file);
-    }, []);
-
-    const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop, accept: 'image/jpeg, image/png' });
-
-    const handleUpload = () => {
-        if (uploadedFile) {
-            console.log('Uploaded file:', uploadedFile.name);
-            console.log('File content:', fileContent);
-        } else {
-            alert('Please drop a JPEG or PNG file to upload.');
-        }
-    };
-
-    const handleChange = (value) => {
-        console.log('selected ' + value);
-    };
+    
+        const onSubmit = async (e) => {
+            e.preventDefault();
+            if (!file) {
+                alert("Please select a file.");
+                return;
+            }
+    
+            const formData = new FormData();
+            formData.append("file", file);
+            formData.append("cefrLevel", cefrLevel); // Add CEFR level to the formData
+    
+            try {
+                const result = await axios.post("http://localhost:8001/uploadeng", formData);
+                console.log(result);
+                if (result.data.status === "ok") {
+                    alert("Uploaded Successfully!!!");
+                    setUploadStatus("success");
+                    getPdf();
+                }
+            } catch (error) {
+                console.error("Error uploading file: ", error.message);
+                alert("Error uploading file. Please try again.");
+                setUploadStatus("error");
+            }
+        };
+    
+        const handleChange = (e) => {
+            const { value } = e.target;
+            setCefrLevel(value);
+        };
 
     return (
         <center>
-            <form className={`${styles.Check}`}>
+            <form className={`${styles.Check}`} onSubmit={onSubmit}>
                 <div style={{ display: "flex", marginLeft: "3rem" }}>
                     <h1>4. คะแนนภาษาอังกฤษ </h1><br />
                 </div>
@@ -82,20 +100,14 @@ const Check4 = () => {
                 </div>
 
 
-                <div className={`${styles.Check1}`} {...getRootProps()}>
+                <div className={`${styles.Check1}`} onSubmit={onSubmit}>
                     <h1> คะแนนภาษาอังกฤษ</h1>
-                    <input {...getInputProps()} />
-                    {isDragActive ? (
-                        <p>Drop the JPEG or PNG file here...</p>
-                    ) : (
-                        <h4 style={{ color: "red" }}>JPEG, PNG file Only</h4>
-                    )}
-                    {uploadedFile && (
-                        <div>
-                            <p>Selected file: {uploadedFile.name}</p>
-                        </div>
-                    )}
-                    <button onClick={handleUpload}>Upload</button>
+                    <input
+                        type="file"
+                        name="file"
+                        onChange={(e) => setFile(e.target.files[0])}
+                    />
+                    <input type="submit" value="Upload" />
                 </div>
                 <div style={{ display: "flex", justifyContent: "space-around" }} >
                     <span onClick={handleBackButtonClick} style={{ float: "left" }} >

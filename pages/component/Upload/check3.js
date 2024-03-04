@@ -1,73 +1,73 @@
 import styles from '@/styles/Home.module.css'
-import React, { useState, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useDropzone } from 'react-dropzone';
-import { FaArrowCircleRight,FaArrowCircleLeft } from "react-icons/fa";
-
+import { FaArrowCircleRight, FaArrowCircleLeft } from "react-icons/fa";
+import axios from 'axios';
 
 const Check3 = () => {
-
     const router = useRouter();
 
     const handleNextButtonClick = () => {
         console.log("Next button clicked!");
         router.push('/component/Upload/check4');
-      //   เหลือใส่ layout
-      };
-      const handleBackButtonClick = () => {
-          console.log("Next button clicked!");
-          router.push('/component/Upload/check2');
-        //   เหลือใส่ layout
-        }
+    };
+    const handleBackButtonClick = () => {
+        console.log("Next button clicked!");
+        router.push('/component/Upload/check2');
+    }
 
-    const [uploadedFile, setUploadedFile] = useState(null);
-    const [fileContent, setFileContent] = useState('');
+    const [file, setFile] = useState(null);
+    const [pdfData, setPdfData] = useState(null);
+    const [uploadStatus, setUploadStatus] = useState(null);
+    const [cefrLevel, setCefrLevel] = useState("A1"); // Default value
 
-    const onDrop = useCallback((acceptedFiles) => {
-        const file = acceptedFiles[0];
-        setUploadedFile(file);
-
-        const reader = new FileReader();
-        reader.onload = (event) => {
-            const content = event.target.result;
-            setFileContent(content);
-        };
-        reader.readAsText(file);
+    useEffect(() => {
+        getPdf();
     }, []);
 
-    const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop, accept: 'image/jpeg, image/png' });
-
-    const handleUpload = () => {
-        if (uploadedFile) {
-            // สร้าง form data เพื่อส่งไฟล์
-            const formData = new FormData();
-            formData.append('file', uploadedFile);
-    
-            // ส่งไฟล์ไปยังเซิร์ฟเวอร์ Flask ที่รอรับไฟล์
-            fetch('http://localhost:5000/extract', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                // ดำเนินการต่อที่นี่
-                console.log('Extracted data:', data);
-            })
-            .catch(error => console.error('Error:', error));
-        } else {
-            alert('Please drop a PDF file to upload.');
+    const getPdf = async () => {
+        try {
+            const result = await axios.get("http://localhost:8001/uploadtepc");
+            setPdfData(result.data.data);
+        } catch (error) {
+            console.error("Error fetching PDF data: ", error.message);
         }
     };
-    
 
-    const handleChange = (value) => {
-        console.log('selected ' + value);
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        if (!file) {
+            alert("Please select a file.");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("cefrLevel", cefrLevel); // Add CEFR level to the formData
+
+        try {
+            const result = await axios.post("http://localhost:8001/uploadtepc", formData);
+            console.log(result);
+            if (result.data.status === "ok") {
+                alert("Uploaded Successfully!!!");
+                setUploadStatus("success");
+                getPdf();
+            }
+        } catch (error) {
+            console.error("Error uploading file: ", error.message);
+            alert("Error uploading file. Please try again.");
+            setUploadStatus("error");
+        }
     };
 
+    const handleChange = (e) => {
+        const { value } = e.target;
+        setCefrLevel(value);
+    };
 
     return (
         <center>
-            <form className={`${styles.Check}`} >
+            <form className={`${styles.Check}`} onSubmit={onSubmit} >
                 <div style={{ display: "flex", marginLeft: "3rem" }}>
                     <h1>3. ทดสอบวัดความสามารถภาษาอังกฤษ(KMUTNB-TEPC) </h1><br />
                 </div>
@@ -75,7 +75,7 @@ const Check3 = () => {
                     <h2 style={{ marginRight: '10px' }}>CEFR Level Achievement :</h2><br />
                     <select
                         className={`${styles.Select}`}
-                        defaultValue={"A1"}
+                        value={cefrLevel}
                         onChange={handleChange}
                     >
                         <option value="A1">A1</option>
@@ -84,31 +84,24 @@ const Check3 = () => {
                         <option value="B2">B2</option>
                         <option value="C1">C1</option>
                     </select>
-                    <h2 style={{color:"red"}}> * </h2>
+                    <h2 style={{ color: "red" }}> * </h2>
                 </div>
 
-
-                <div className={`${styles.Check1}`} {...getRootProps()}>
+                <div className={`${styles.Check1}`}>
                     <h1>ทดสอบวัดความสามารถภาษาอังกฤษ</h1>
-                    <input {...getInputProps()} />
-                    {isDragActive ? (
-                        <p>Drop the JPEG or PNG file here...</p>
-                    ) : (
-                        <h4 style={{ color: "red" }}>JPEG, PNG file Only</h4>
-                    )}
-                    {uploadedFile && (
-                        <div>
-                            <p>Selected file: {uploadedFile.name}</p>
-                        </div>
-                    )}
-                    <button onClick={handleUpload}>Upload</button>
+                    <input
+                        type="file"
+                        name="file"
+                        onChange={(e) => setFile(e.target.files[0])}
+                    />
+                    <input type="submit" value="Upload" />
                 </div>
                 <div style={{ display: "flex", justifyContent: "space-around" }} >
                     <span onClick={handleBackButtonClick} style={{ float: "left" }} >
-                    <FaArrowCircleLeft />
+                        <FaArrowCircleLeft />
                     </span><br></br>
                     <span onClick={handleNextButtonClick} style={{ float: "right" }} >
-                    <FaArrowCircleRight />
+                        <FaArrowCircleRight />
                     </span>
                 </div>
                 <br></br>

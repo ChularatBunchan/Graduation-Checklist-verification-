@@ -1,97 +1,90 @@
-import styles from '@/styles/Home.module.css'
-import React, { useState, useCallback } from 'react';
+import styles from '@/styles/Home.module.css';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useDropzone } from 'react-dropzone';
-import { FaArrowCircleRight,FaArrowCircleLeft } from "react-icons/fa";
+import { FaArrowCircleRight, FaArrowCircleLeft } from 'react-icons/fa';
+import axios from 'axios';
 
 const Check1 = () => {
+  const router = useRouter();
 
-    const router = useRouter();
-    const handleNextButtonClick = () => {
-      console.log("Next button clicked!");
-      router.push('/component/Upload/check2');
-    };
-    const handleBackButtonClick = () => {
-        console.log("Next button clicked!");
-        router.push('/component/Hello');
-      
+  const handleNextButtonClick = () => {
+    console.log('Next button clicked!');
+    router.push('/component/Upload/check2');
+  };
+
+  const handleBackButtonClick = () => {
+    console.log('Back button clicked!');
+    router.push('/component/Hello');
+  };
+
+  const [file, setFile] = useState(null);
+  const [pdfData, setPdfData] = useState(null);
+  const [uploadStatus, setUploadStatus] = useState(null);
+
+  useEffect(() => {
+    getPdf();
+  }, []);
+
+  const getPdf = async () => {
+    try {
+      const result = await axios.get("http://localhost:8000/upload");
+      setPdfData(result.data.data);
+    } catch (error) {
+      console.error("Error fetching PDF data: ", error.message);
+    }
+  };
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    if (!file) {
+      alert("Please select a file.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const result = await axios.post("http://localhost:8001/upload", formData);
+      console.log(result);
+      if (result.data.status === "ok") {
+        alert("Uploaded Successfully!!!");
+        setUploadStatus("success");
+        getPdf();
       }
+    } catch (error) {
+      console.error("Error uploading file: ", error.message);
+      alert("Error uploading file. Please try again.");
+      setUploadStatus("error");
+    }
+  };
 
-    const [uploadedFile, setUploadedFile] = useState(null);
-    const [fileContent, setFileContent] = useState('');
+  return (
+    <center>
+      <form className={styles.Check} onSubmit={onSubmit}>
+        <span onClick={handleBackButtonClick}>
+          <FaArrowCircleLeft />
+        </span>
+        <div style={{ display: 'flex' }}>
+          <h1>1. เอกสารแสดงผลการเรียน </h1>
+        </div>
+        <div className={styles.Check1}>
+          <h1>เอกสารแสดงผลการเรียน </h1>
+          <input
+            type="file"
+            name="file"
+            onChange={(e) => setFile(e.target.files[0])}
+          />
+          <input type="submit" value="Upload" />
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+          <span onClick={handleNextButtonClick} style={{ float: 'right' }}>
+            <FaArrowCircleRight />
+          </span>
+        </div>
+      </form>
+    </center>
+  );
+};
 
-    const onDrop = useCallback((acceptedFiles) => {
-        const file = acceptedFiles[0];
-        setUploadedFile(file);
-
-        const reader = new FileReader();
-        reader.onload = (event) => {
-            const content = event.target.result;
-            setFileContent(content);
-        };
-        reader.readAsText(file);
-    }, []);
-
-    const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop, accept: '.pdf' });
-
-    const handleUpload = async () => {
-        if (uploadedFile) {
-            const formData = new FormData();
-            formData.append('file', uploadedFile);
-
-            const response = await fetch('http://localhost:5000/extract', {
-                method: 'POST',
-                body: formData
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                console.log('Extracted data:', data);
-                // อัพโหลดข้อมูลที่ได้ลง MongoDB
-            } else {
-                console.error('Failed to extract data.');
-            }
-        } else {
-            alert('Please drop a PDF file to upload.');
-        }
-    };
-    
-    
-    
-
-    return (
-        <center>
-            <form className={`${styles.Check}`}>
-                <span onClick={handleBackButtonClick}>
-                <FaArrowCircleLeft />
-                </span><br></br>
-                <div style={{ display: "flex" }}>
-                    <h1>1. เอกสารแสดงผลการเรียน </h1><br />
-                </div>
-                <div className={`${styles.Check1}`} {...getRootProps()}>
-                    <h1>เอกสารแสดงผลการเรียน </h1>
-                    <input {...getInputProps()} />
-                    {isDragActive ? (
-                        <p>Drop the PDF file here...</p>
-                    ) : (
-                        <p style={{color: "red"}}>PDF file Only</p>
-                        
-                    )}
-                    {uploadedFile && (
-                        <div>
-                            <p>Selected file: {uploadedFile.name}</p>
-                        </div>
-                    )}
-                    <button onClick={handleUpload}>Upload</button>
-                </div>
-                <div style={{ display: "flex", justifyContent: "space-around" }} >
-                    <br></br>
-                    <span onClick={handleNextButtonClick} style={{  float: "right" }} >
-                        <FaArrowCircleRight />
-                    </span>
-                </div>
-            </form>
-        </center>
-    )
-}
 export default Check1;

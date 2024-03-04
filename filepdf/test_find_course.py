@@ -13,7 +13,7 @@ def extract_text():
     if pdf_file.filename == '':
         return jsonify({'error': 'No selected file'})
 
-    courses_to_find = ["EMBEDDED SYSTEM DESIGN", "OBJECT-ORIENTED PROGRAMMING", "DIGITAL CIRCUIT DESIGN"]
+    courses_to_find = ["COMPUTER NETWORKS", "FUNDAMENTAL OF COMPUTER SCIENCE AND PROFESSIONAL ISSUES", "DATA STRUCTURE AND ALGORITHM" , "DATABASE SYSTEMS"]
     extracted_texts = {}
 
     with fitz.open(pdf_file) as doc:
