@@ -60,41 +60,10 @@ const StuCheck = () => {
                     </tbody>
                 </table>
             </div>
-            {/* <tbody>
-          {students.map((student) => (
-            <tr key={student._id}>
-              <td>{student.firstName}</td>
-              <td>{student.lastName}</td>
-              <td>{student.grade}</td>
-              <td>{student.subject}</td>
-            </tr>
-          ))}
-        </tbody> */}
         </div>
         </center>
         
     );
 };
-
-// export async function getServerSideProps() {
-//     try {
-//         await mongoose.connect(process.env.MONGODB_URI, {
-//             useNewUrlParser: true,
-//             useUnifiedTopology: true,
-//         });
-//         console.log('Connected to MongoDB');
-//     } catch (err) {
-//         console.error(err.message);
-//         process.exit(1);
-//     }
-
-//     const students = await Student.find();
-
-//     return {
-//         props: {
-//             students: JSON.parse(JSON.stringify(students)),
-//         },
-//     };
-// }
 
 export default StuCheck;

@@ -16,7 +16,7 @@ app.use("/filecer" , express.static("/filecer"))
 app.use("/filegra" , express.static("/filegra"))
 
 
-const mongoUrl = "mongodb+srv://admin:1234@cluster0.o78uko5.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const mongoUrl = "mongodb+srv://admin:<password>@cluster0.o78uko5.mongodb.net/";
 
 mongoose.connect(mongoUrl, {
   useNewUrlParser: true,

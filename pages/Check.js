@@ -1,9 +1,9 @@
-import Check1 from "./component/Upload/check1";
+import StuCheck from "./component/Check/StuCheck";
 
 export default function Check() {
     return(
         <div>
-            <Check1 />
+            <StuCheck />
         </div>
     )
 }

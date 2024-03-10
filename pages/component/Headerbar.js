@@ -67,11 +67,15 @@ const HeaderBar = () => {
             </li>
             <li>
               <FaRegCheckCircle size={23} />
-              <Link href="/StatusCheck" className={`${styles.item}`}> ตรวจสอบสถานะการจบการศึกษา</Link>
+              <Link href="/Check" className={`${styles.item}`}> ตรวจสอบสถานะการจบการศึกษา</Link>
             </li>
             <li>
               <FiLogOut size={23} />
-              <Link href="/Hello" className={`${styles.item}`}> ออกจากระบบ</Link>
+              <Link href="/Check" className={`${styles.item}`}> โปรไฟล์ </Link>
+            </li>
+            <li>
+              <FiLogOut size={23} />
+              <Link href="/Hello" className={`${styles.item}`}> ออกจากระบบ </Link>
             </li>
           </ul>
         </div>
