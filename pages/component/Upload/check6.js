@@ -1,8 +1,7 @@
 import styles from '@/styles/Home.module.css'
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { FaArrowCircleRight,FaArrowCircleLeft } from "react-icons/fa";
-import { AiFillHome } from "react-icons/ai";
+import { FaArrowCircleLeft } from "react-icons/fa";
 import axios from 'axios';
 
 const Check6 = () => {
@@ -20,7 +19,6 @@ const Check6 = () => {
     const [file, setFile] = useState(null);
     const [pdfData, setPdfData] = useState(null);
     const [uploadStatus, setUploadStatus] = useState(null);
-    const [cefrLevel, setCefrLevel] = useState("A1"); // Default value
 
     useEffect(() => {
         getPdf();
@@ -60,6 +58,25 @@ const Check6 = () => {
         }
     };
 
+    {/* ปุ่มบันทึก เชื่อมกับดาต้าเบส */ }
+    const ToDatabase = async (e) => {
+        e.preventDefault();
+
+        const dataToSave = {
+            file,
+            pdfData
+        };
+
+        try {
+            const response = await axios.post("http://localhost:8001/save-to-database", dataToSave);
+            console.log(response.data);
+            // alert("Data saved to the database successfully!");
+        } catch (error) {
+            console.error("Error saving data to the database: ", error.message);
+            // alert("Error saving data to the database. Please try again.");
+        }
+    }
+
 
     return (
         <center>
@@ -79,10 +96,10 @@ const Check6 = () => {
                 </div>
                 <div style={{ display: "flex", justifyContent: "space-around" }} >
                     <span onClick={handleBackButtonClick} style={{ float: "left" }} >
-                    <FaArrowCircleLeft />
+                        <FaArrowCircleLeft />
                     </span><br></br>
                     <span onClick={handleNextButtonClick} style={{ float: "right" }} >
-                    <AiFillHome />
+                        <button onClick={ToDatabase}>save</button>
                     </span>
                 </div>
                 <br></br>

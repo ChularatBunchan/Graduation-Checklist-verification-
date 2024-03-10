@@ -54,8 +54,6 @@ const Cal = () => {
                 <div className={`${styles.CalHead}`}>
                     <form>
                         <h1>ระบบคำนวณผลการเรียนล่วงหน้า</h1>
-                        <h3>จำนวนวิชาภาษาอังกฤษที่เรียนแล้ว</h3>
-                        <input style={{ width: "40rem" }} type='range' min={0} max={100} value={80} id='Nsub' name='Nsub' readOnly></input>
                         <h3>ผลการเรียนรวมทั้งหมด</h3>
                         <div className={`${styles.Calflex}`}>
                             <div style={{ flexDirection: 'column', width: "50%" }}>

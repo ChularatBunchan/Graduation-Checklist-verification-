@@ -9,7 +9,7 @@ app.use(cors({
 }));
 
 app.use("/file" , express.static("/file"))
-app.use("/fileinturn" , express.static("/fileinturn"))
+app.use("/fileintern" , express.static("/fileintern"))
 app.use("/filetepc" , express.static("/filetepc"))
 app.use("/fileeng" , express.static("/fileeng"))
 app.use("/filecer" , express.static("/filecer"))
@@ -25,13 +25,34 @@ mongoose.connect(mongoUrl, {
   console.log("Connect to MongoDB");
 }).catch((e) => console.log(e));
 
+app.use(express.json());
+app.use(cors())
+
+// -----------------------------------------------------------------
+
+const EngSubSchema = new mongoose.Schema({
+  en_id: Number,
+  en_code: String
+});
+const EngSub = mongoose.model('EngSub' , EngSubSchema )
+
+app.get('/engsub', async (req,res) => {
+  try{
+    const engsub = await EngSub.find();
+    res.json(engsub)
+  } catch (error) {
+    console.error('Error Eng subjects na',error)
+    res.status(500).json({ error: "Internal server error"})
+  }
+})
+
 // -----------------------------------------------------------------
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, "./file");
     },
-    fileName: function (req, file, cb) {
+    filename: function (req, file, cb) {
       const uniqueSuffix = Date.now();
       cb(null, uniqueSuffix + file.originalname);
     },
@@ -49,9 +70,9 @@ const storage = multer.diskStorage({
   
   app.post("/upload", upload.single("file"), async (req, res) => {
     console.log(req.file);
-    const fileName = req.file.filename;
+    const filename = req.file.filename;
     try {
-      await Pdf.create({ pdf: fileName});
+      await Pdf.create({ pdf: filename});
       res.send({ status: "ok" });
     } catch (error) {
       res.json({ status: error });
@@ -71,7 +92,7 @@ const storage = multer.diskStorage({
 
 const storage2 = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "./fileinturn");
+    cb(null, "./fileintern");
   },
   fileName: function (req, file, cb) {
     const uniqueSuffix = Date.now();
@@ -88,18 +109,18 @@ const PdfSchema2 = mongoose.Schema({
 
 const Pdf2 = mongoose.model('Pdf2', PdfSchema2);
 
-app.post("/uploadinturn", upload2.single("file"), async (req, res) => {
+app.post("/uploadintern", upload2.single("file"), async (req, res) => {
   console.log(req.file);
-  const fileName = req.file.filename;
+  const filename = req.file.filename;
   try {
-    await Pdf2.create({ pdf: fileName });
+    await Pdf2.create({ pdf: filename });
     res.send({ status: "ok" });
   } catch (error) {
     res.json({ status: error });
   }
 });
 
-app.get("/uploadinturn", async (req, res) => {
+app.get("/uploadintern", async (req, res) => {
   try {
     const data = await Pdf2.find({});
     res.send({ status: "ok", data: data });
@@ -131,9 +152,9 @@ const Pdf3 = mongoose.model('Pdf3', PdfSchema3);
 
 app.post("/uploadtepc", upload3.single("file"), async (req, res) => {
   console.log(req.file);
-  const fileName = req.file.filename;
+  const filename = req.file.filename;
   try {
-    await Pdf3.create({ pdf: fileName , image: buffer });
+    await Pdf3.create({ pdf: filename , image: buffer });
     res.send({ status: "ok" });
   } catch (error) {
     res.json({ status: error });
@@ -172,9 +193,9 @@ const Pdf4 = mongoose.model('Pdf4', PdfSchema4);
 
 app.post("/uploadeng", upload4.single("file"), async (req, res) => {
   console.log(req.file);
-  const fileName = req.file.filename;
+  const filename = req.file.filename;
   try {
-    await Pdf4.create({ pdf: fileName });
+    await Pdf4.create({ pdf: filename });
     res.send({ status: "ok" });
   } catch (error) {
     res.json({ status: error });
@@ -213,9 +234,9 @@ const Pdf5= mongoose.model('Pdf5', PdfSchema5);
 
 app.post("/uploadcer", upload5.single("file"), async (req, res) => {
   console.log(req.file);
-  const fileName = req.file.filename;
+  const filename = req.file.filename;
   try {
-    await Pdf5.create({ pdf: fileName });
+    await Pdf5.create({ pdf: filename });
     res.send({ status: "ok" });
   } catch (error) {
     res.json({ status: error });
@@ -254,9 +275,9 @@ const Pdf6 = mongoose.model('Pdf6', PdfSchema6);
 
 app.post("/uploadgra", upload6.single("file"), async (req, res) => {
   console.log(req.file);
-  const { fileName, buffer } = req.file;
+  const filename = req.file;
   try {
-    await Pdf6.create({ pdf: fileName });
+    await Pdf6.create({ pdf: filename });
     res.send({ status: "ok" });
   } catch (error) {
     res.json({ status: error });
@@ -273,6 +294,22 @@ app.get("/uploadgra", async (req, res) => {
 });
 
 // -----------------------------------------------------------------
+
+app.post('/save-to-database', async (req, res) => {
+  const { file, pdfData, cefrLevel } = req.body;
+
+  try {
+      const check = new CheckModel({ file, pdfData, cefrLevel });
+      await check.save();
+      res.status(201).send({ status: 'ok', message: 'Data saved successfully' });
+  } catch (error) {
+      console.error('Error saving data to the database: ', error.message);
+      res.status(500).send({ status: 'error', message: 'Failed to save data to the database' });
+  }
+});
+
+// -----------------------------------------------------------------
+
 
 app.get("/", async (req, res) => {
   res.send("Success yahhhhhh");

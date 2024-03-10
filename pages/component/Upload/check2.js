@@ -29,7 +29,7 @@ const Check2 = () => {
 
     const getPdf = async () => {
         try {
-            const result = await axios.get("http://localhost:8001/uploadinturn");
+            const result = await axios.get("http://localhost:8001/uploadintern");
             setPdfData(result.data.data);
         } catch (error) {
             console.error("Error fetching PDF data: ", error.message);
@@ -47,7 +47,7 @@ const Check2 = () => {
         formData.append("file", file);
 
         try {
-            const result = await axios.post("http://localhost:8001/uploadinturn", formData);
+            const result = await axios.post("http://localhost:8001/uploadintern", formData);
             console.log(result);
             if (result.data.status === "ok") {
                 alert("Uploaded Successfully!!!");
