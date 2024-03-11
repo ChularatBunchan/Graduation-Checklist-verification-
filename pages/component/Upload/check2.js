@@ -37,18 +37,14 @@ const Check2 = () => {
     getPdf();
   }, []);
 
-  const getPdf = async () => {
-    try {
-      const result = await axios.get("http://localhost:4000/file");
-      setPdfData(result.data.data);
-    } catch (error) {
-      console.error("Error fetching PDF data: ", error.message);
-    }
-  };
-
-  const onDrop = (acceptedFiles) => {
-    setSelectedFile(acceptedFiles[0]);
-  };
+    const getPdf = async () => {
+        try {
+            const result = await axios.get("http://localhost:8001/uploadinturn");
+            setPdfData(result.data.data);
+        } catch (error) {
+            console.error("Error fetching PDF data: ", error.message);
+        }
+    };
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -60,21 +56,22 @@ const Check2 = () => {
     const formData = new FormData();
     formData.append("file", file);
 
-    try {
-      const result = await axios.post("http://localhost:4000/file",{ fi_id : selectedFileName });
-      console.log(result);
-      console.log("suggest");
-      if (result.data.status === "ok") {
-        alert("Uploaded Successfully!!!");
-        setUploadStatus("success");
-        getPdf();
-      }
-    } catch (error) {
-      console.error("Error uploading file: ", error.message);
-      alert("Error uploading file. Please try again.");
-      setUploadStatus("error");
-    }
-  };
+        try {
+            const result = await axios.post("http://localhost:8001/uploadinturn", formData);
+            console.log(result);
+            if (result.data.status === "ok") {
+                alert("Uploaded Successfully!!!");
+                setUploadStatus("success");
+                getPdf();
+            }
+        } catch (error) {
+            console.error("Error uploading file: ", error.message);
+            alert("Error uploading file. Please try again.");
+            setUploadStatus("error");
+        }
+    };
+
+
 
   return (
     <center>

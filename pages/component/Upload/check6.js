@@ -58,24 +58,6 @@ const Check6 = () => {
         }
     };
 
-    {/* ปุ่มบันทึก เชื่อมกับดาต้าเบส */ }
-    const ToDatabase = async (e) => {
-        e.preventDefault();
-
-        const dataToSave = {
-            file,
-            pdfData
-        };
-
-        try {
-            const response = await axios.post("http://localhost:8001/save-to-database", dataToSave);
-            console.log(response.data);
-            // alert("Data saved to the database successfully!");
-        } catch (error) {
-            console.error("Error saving data to the database: ", error.message);
-            // alert("Error saving data to the database. Please try again.");
-        }
-    }
 
     return (
         <center>

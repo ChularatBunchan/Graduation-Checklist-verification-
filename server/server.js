@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const multer = require('multer');
 const cors = require("cors");
 
+
 const app = express();
 app.use(cors({
     origin: 'http://localhost:3000'
@@ -52,7 +53,7 @@ const storage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, "./file");
     },
-    filename: function (req, file, cb) {
+    fileName: function (req, file, cb) {
       const uniqueSuffix = Date.now();
       cb(null, uniqueSuffix + file.originalname);
     },
@@ -294,22 +295,6 @@ app.get("/uploadgra", async (req, res) => {
 });
 
 // -----------------------------------------------------------------
-
-app.post('/save-to-database', async (req, res) => {
-  const { file, pdfData, cefrLevel } = req.body;
-
-  try {
-      const check = new CheckModel({ file, pdfData, cefrLevel });
-      await check.save();
-      res.status(201).send({ status: 'ok', message: 'Data saved successfully' });
-  } catch (error) {
-      console.error('Error saving data to the database: ', error.message);
-      res.status(500).send({ status: 'error', message: 'Failed to save data to the database' });
-  }
-});
-
-// -----------------------------------------------------------------
-
 
 app.get("/", async (req, res) => {
   res.send("Success yahhhhhh");

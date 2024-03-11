@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // Import Axios
 import styles from '@/styles/Headerbar.module.css';
 
-const StatusCheck = () => {
+const CheckStatus = () => {
     const [graduate, setGraduate] = useState([]);
 
     useEffect(() => {
@@ -36,15 +36,17 @@ const StatusCheck = () => {
                         {/* head */}
                         <thead>
                             <tr>
-                                {checklistItems.map((item, index) => (
-                                    <th key={index}>{item}</th>
-                                ))}
+                                <th>Checklist</th>
+                                <th>File</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             {graduate.map((graduated, index) => (
                                 <tr key={index}>
+                                    {checklistItems.map((item, index) => (
+                                        <th key={index}>{item}</th>
+                                    ))}
                                     <td>{graduated.fi_id}</td>
                                     <td>{graduated.gd_status}</td>
                                 </tr>
@@ -57,4 +59,4 @@ const StatusCheck = () => {
     );
 };
 
-export default StatusCheck;
+export default CheckStatus;

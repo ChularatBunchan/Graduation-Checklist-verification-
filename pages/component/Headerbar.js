@@ -1,10 +1,12 @@
 import styles from '@/styles/Headerbar.module.css';
 import Link from 'next/link';
+import { Button } from '@material-tailwind/react';
 import React, { useState, useEffect } from 'react';
 import { AiFillCalculator, AiOutlineMenu } from "react-icons/ai";
 import { FaUserCircle, FaRegCheckCircle, FaRegFile } from "react-icons/fa";
 import { CiCalculator2 } from "react-icons/ci";
 import { FiLogOut } from "react-icons/fi";
+import { IoPersonOutline } from "react-icons/io5";
 
 const HeaderBar = () => {
   const showSidebar = () => {
@@ -20,21 +22,8 @@ const HeaderBar = () => {
   const [isProfilePopupVisible, setIsProfilePopupVisible] = useState(false);
 
   const handleClickProfile = () => {
-    if (profileInfo) {
-      setIsProfilePopupVisible(!isProfilePopupVisible);
-    } else {
-      setProfileInfo({
-        name: 'นายกิตติภพ กิจทรัพย์',
-        email: 'kitipok.123@gmail.com'
-      });
-    }
+    router.push('/Profile'); 
   }
-
-  useEffect(() => {
-    if (profileInfo) {
-      // alert(`ชื่อ: ${profileInfo.name}\nอีเมลล์: ${profileInfo.email}`);
-    }
-  }, [profileInfo]);
 
   return (
     <div>
@@ -47,16 +36,23 @@ const HeaderBar = () => {
           <p>ระบบตรวจสอบการจบการศึกษาโครงการพิเศษสองภาษา</p>
         </div>
         <div className={`${styles.right_content}`}>
-          <div className={`${styles.profile}`} onClick={handleClickProfile}>
-            <FaUserCircle size={35} />
-            {isProfilePopupVisible && <ProfileInfoPopup profileInfo={profileInfo} />}
-          </div>
+        {/* {isLoggedIn ? ( */}
+            <div className={`${styles.profile}`} onClick={handleClickProfile}>
+              <FaUserCircle size={35} />
+              {isProfilePopupVisible && <ProfileInfoPopup profileInfo={profileInfo} />}
+            </div>
+          {/* ) : ( */}
+          {/* )} */}
         </div>
       </div>
 
       <nav className={`${styles.sidebar}`} id='sidebar2'>
         <div className={`${styles.menucontent}`}>
           <ul className={`${styles.menuitem}`}>
+            <li>
+              <IoPersonOutline size={23} />
+              <Link href="/Profile" className={`${styles.item}`}> ข้อมูลส่วนตัว </Link>
+            </li>
             <li>
               <FaRegFile size={23} />
               <Link href="/Check" className={`${styles.item}`}> ตรวจสอบการจบการศึกษา</Link>
@@ -71,7 +67,7 @@ const HeaderBar = () => {
             </li>
             <li>
               <FiLogOut size={23} />
-              <Link href="/Check11" className={`${styles.item}`}> โปรไฟล์ </Link>
+              <Link href="/Check" className={`${styles.item}`}> โปรไฟล์ </Link>
             </li>
             <li>
               <FiLogOut size={23} />
