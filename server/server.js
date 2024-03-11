@@ -331,7 +331,7 @@ const graSchema = new mongoose.Schema({
 });
 
 // Create a model
-const Graduate = mongoose.model('students', graSchema);
+const Graduate = mongoose.model('graduate_checkings', graSchema);
 
 // Route to handle GET request for English subjects
 app.get('/graduate', async (req, res) => {
