@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const multer = require('multer');
 const cors = require("cors");
 
+
 const app = express();
 app.use(cors({
     origin: 'http://localhost:3000'
@@ -16,7 +17,7 @@ app.use("/filecer" , express.static("/filecer"))
 app.use("/filegra" , express.static("/filegra"))
 
 
-const mongoUrl = "mongodb+srv://admin:<password>@cluster0.o78uko5.mongodb.net/";
+const mongoUrl = "mongodb+srv://admin:1234@cluster0.o78uko5.mongodb.net/";
 
 mongoose.connect(mongoUrl, {
   useNewUrlParser: true,
@@ -53,9 +54,11 @@ const storage = multer.diskStorage({
       cb(null, "./file");
     },
     filename: function (req, file, cb) {
-      const uniqueSuffix = Date.now();
-      cb(null, uniqueSuffix + file.originalname);
-    },
+      // Rename the file to the student code
+      const studentCode = req.body.studentCode; // Assuming studentCode is sent in the request body
+      const fileName = studentCode + "_" + Date.now() + "_" + file.originalname;
+      cb(null, fileName);
+  },
   });
   
   const upload = multer({ storage : storage });
@@ -294,17 +297,50 @@ app.get("/uploadgra", async (req, res) => {
 });
 
 // -----------------------------------------------------------------
+// Create a schema for English subjects
+const studentsSchema = new mongoose.Schema({
+  st_id: String,
+  st_firstname: String,
+  st_lastname: String,
+  st_email: String,
+  st_phone: String,
+});
 
-app.post('/save-to-database', async (req, res) => {
-  const { file, pdfData, cefrLevel } = req.body;
+// Create a model
+const Students = mongoose.model('students', studentsSchema);
 
+// Route to handle GET request for English subjects
+app.get('/students', async (req, res) => {
   try {
-      const check = new CheckModel({ file, pdfData, cefrLevel });
-      await check.save();
-      res.status(201).send({ status: 'ok', message: 'Data saved successfully' });
+    const students = await Students.find();
+    res.json(students);
   } catch (error) {
-      console.error('Error saving data to the database: ', error.message);
-      res.status(500).send({ status: 'error', message: 'Failed to save data to the database' });
+    console.error('Error fetching students:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// -----------------------------------------------------------------
+
+const graSchema = new mongoose.Schema({
+  _id: String,
+  gd_status: String,
+  fi_id: String,
+  createdAt: String,
+  updatedAt: String,
+});
+
+// Create a model
+const Graduate = mongoose.model('students', graSchema);
+
+// Route to handle GET request for English subjects
+app.get('/graduate', async (req, res) => {
+  try {
+    const graduate = await Graduate.find();
+    res.json(graduate);
+  } catch (error) {
+    console.error('Error fetching students:', error);
+    res.status(500).send('Internal Server Error');
   }
 });
 

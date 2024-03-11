@@ -31,6 +31,7 @@ function Check1() {
     }
   };
 
+
   const onSubmit = async (e) => {
     e.preventDefault();
     if (!file || !studentCode) {

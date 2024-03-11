@@ -2,7 +2,7 @@ import Head from 'next/head';
 import styles from '@/styles/Home.module.css';
 import React from 'react';
 import Hello from './component/Hello';
-import Login from './component/Login';
+import Login from './Login';
 
 const Home = () => {
 
