@@ -50,24 +50,34 @@ const HeaderBar = () => {
         <div className={`${styles.menucontent}`}>
           <ul className={`${styles.menuitem}`}>
             <li>
-              <IoPersonOutline size={23} />
-              <Link href="/Profile" className={`${styles.item}`}> ข้อมูลส่วนตัว </Link>
+              <Link href="/Profile" className={`${styles.item}`}>
+                <IoPersonOutline size={23} className={`${styles.profileicon}`}/>
+                <span className={`${styles.profiletext}`}>ข้อมูลส่วนตัว </span>
+              </Link>
             </li>
             <li>
-              <FaRegFile size={23} />
-              <Link href="/Check" className={`${styles.item}`}> ตรวจสอบการจบการศึกษา</Link>
+              <Link href="/Check" className={`${styles.item}`}>
+                <FaRegFile size={23} className={`${styles.profileicon}`}/>
+                <span className={`${styles.profiletext}`}>ตรวจสอบการจบการศึกษา </span>
+              </Link>
             </li>
             <li>
-              <CiCalculator2 size={23} />
-              <Link href="/Calculate" className={`${styles.item}`}> คำนวนเกรดเฉลี่ย</Link>
+              <Link href="/Calculate" className={`${styles.item}`}>
+                <CiCalculator2 size={23} className={`${styles.profileicon}`}/>
+                <span className={`${styles.profiletext}`}>คำนวนเกรดเฉลี่ย </span>
+              </Link>
             </li>
             <li>
-              <FaRegCheckCircle size={23} />
-              <Link href="/StatusCheck" className={`${styles.item}`}> ตรวจสอบสถานะการจบการศึกษา</Link>
+              <Link href="/StatusCheck" className={`${styles.item}`}>
+                <FaRegCheckCircle size={23} className={`${styles.profileicon}`}/>
+                <span className={`${styles.profiletext}`}>ตรวจสอบสถานะการจบการศึกษา </span>
+              </Link>
             </li>
             <li>
-              <FiLogOut size={23} />
-              <Link href="/Hello" className={`${styles.item}`}> ออกจากระบบ </Link>
+              <Link href="/Hello" className={`${styles.item}`}>
+                <FiLogOut size={23} className={`${styles.profileicon}`}/>
+                <span className={`${styles.profiletext}`}>ออกจากระบบ{" "} </span>
+              </Link>
             </li>
           </ul>
         </div>
