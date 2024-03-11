@@ -1,16 +1,16 @@
 .sidebar {
   position: absolute ;
   height: 100%;
-  width: 25%;
+  /* width: 25%; */
   color: #07AA9F;
   z-index: 999;
   background-color: white;
   display: none;
   flex-direction: column;
   align-items: flex-start;
+  transition: 0.5s;
   justify-content: flex-start;
   box-shadow: 5px 5px 6px #f1a27a;
-
 }
 
 .popup {
@@ -25,9 +25,13 @@
   border-radius: 1rem;
 }
 
-
 .sidebar li {
+  width: 300px;
+}
+.menucontent {
+  height: 100%;
   width: 100%;
+  overflow-y: auto;
 }
 
 .menuitem li{
@@ -37,7 +41,7 @@
 
 .menuitem li:hover{
   background-color: #f0f0f0;
-  transition: 0.5ms;
+  transition: background-color 0.3s ease;
 }
 
 
@@ -67,9 +71,23 @@
 
 .item {
   text-decoration: none;
+  /* color: #07AA9F;
+  font-size: 1.2rem; */
+}
+
+/* .profile {
   color: #07AA9F;
+  margin-right: 1rem;
+} */
+.profileicon {
+  color: #07AA9F;
+  margin-right: 1rem;
+}
+
+/* กำหนดสีของข้อความเป็นสีดำ */
+.profiletext {
+  color: #000;
   font-size: 1.2rem;
-  
 }
 
 .header {
@@ -92,6 +110,8 @@
   border-radius: .5rem;
   color: #EB6725;
   padding: 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
 }
 
 .left_content {
@@ -127,10 +147,6 @@
   display: inline-block;
 }
 
-.profile {
-  color: #07AA9F;
-  margin-right: 1rem;
-}
 
 .content {
   background-color: #ffffff;
@@ -172,4 +188,3 @@
   width: 80%;
   margin: 1rem;
 }
-  
