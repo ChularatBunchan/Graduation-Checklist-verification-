@@ -1,24 +1,23 @@
-import { write } from 'fs-extra';
-import { NextRequest, NextResponse } from 'next/server';
+// export async function GET() {
+//   return Response.json({
+//     message: `GET method called`,
+//   });
+// }
 
-async function POST(request) {
-  const data = await request.formData();
-  const file = data.get('file');
+// export async function POST() {
+//   return Response.json({
+//     message: `POST method called`,
+//   });
+// }
 
-  if (!file) {
-    return NextResponse.json({ success: false });
-  }
+// export async function PUT() {
+//   return Response.json({
+//     message: `PUT method called`,
+//   });
+// }
 
-  const bytes = await file.arrayBuffer();
-  const buffer = Buffer.from(bytes);
-
-  const path = `/tmp/${file.name}`;
-  await write(buffer,path);
-  console.log(`open ${path} to see the uploaded file`);
-
-  return NextResponse.json({ success: true });
-}
-
-export default {
-  POST
-};
+// export async function DELETE() {
+//   return Response.json({
+//     message: `DELETE method called`,
+//   });
+// }

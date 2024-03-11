@@ -88,17 +88,21 @@ const Hello = () => {
                     <table>
                         <thead>
                             <tr>
+                                <th>ปีการศึกษา</th>
+                                <th>ภาคเรียนที่</th>
                                 <th>รหัสวิชา</th>
                                 <th>ชื่อวิชา</th>
-                                <th>ปีการศึกษา</th>
+                                <th>หมายเหตุ</th>
                             </tr>
                         </thead>
                         <tbody>
                             {subjects.map(subject => (
                                 <tr key={subject.en_code}>
+                                    <td>{subject.en_year}</td>
+                                    <td>{subject.en_semester}</td>
                                     <td>{subject.en_code}</td>
                                     <td>{subject.en_name}</td>
-                                    <td>{subject.en_year}</td>
+                                    <td>{subject.en_note}</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -110,4 +114,3 @@ const Hello = () => {
 };
 
 export default Hello;
-

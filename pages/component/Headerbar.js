@@ -71,7 +71,7 @@ const HeaderBar = () => {
             </li>
             <li>
               <FiLogOut size={23} />
-              <Link href="/Check" className={`${styles.item}`}> โปรไฟล์ </Link>
+              <Link href="/Check11" className={`${styles.item}`}> โปรไฟล์ </Link>
             </li>
             <li>
               <FiLogOut size={23} />

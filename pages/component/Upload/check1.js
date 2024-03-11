@@ -4,8 +4,13 @@ import { useRouter } from 'next/router';
 import { FaArrowCircleRight, FaArrowCircleLeft } from 'react-icons/fa';
 import axios from 'axios';
 
-const Check1 = () => {
+function Check1() {
   const router = useRouter();
+  const [englishSubjects, setEnglishSubjects] = useState([]);
+  const [file, setFile] = useState(null);
+  const [pdfData, setPdfData] = useState(null);
+  const [uploadStatus, setUploadStatus] = useState(null);
+  const [studentCode, setStudentCode] = useState('');
 
   const handleNextButtonClick = () => {
     console.log('Next button clicked!');
@@ -17,17 +22,9 @@ const Check1 = () => {
     router.push('/component/Hello');
   };
 
-  const [file, setFile] = useState(null);
-  const [pdfData, setPdfData] = useState(null);
-  const [uploadStatus, setUploadStatus] = useState(null);
-
-  useEffect(() => {
-    getPdf();
-  }, []);
-
   const getPdf = async () => {
     try {
-      const result = await axios.get("http://localhost:8000/upload");
+      const result = await axios.get("http://localhost:4000/upload");
       setPdfData(result.data.data);
     } catch (error) {
       console.error("Error fetching PDF data: ", error.message);
@@ -36,16 +33,17 @@ const Check1 = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    if (!file) {
-      alert("Please select a file.");
+    if (!file || !studentCode) {
+      alert("Please select a file and enter student code.");
       return;
     }
 
     const formData = new FormData();
     formData.append("file", file);
+    formData.append("studentCode", studentCode);
 
     try {
-      const result = await axios.post("http://localhost:8001/upload", formData);
+      const result = await axios.post("http://localhost:4000/upload", formData);
       console.log(result);
       if (result.data.status === "ok") {
         alert("Uploaded Successfully!!!");
@@ -61,6 +59,7 @@ const Check1 = () => {
 
   return (
     <center>
+
       <form className={styles.Check} onSubmit={onSubmit}>
         <span onClick={handleBackButtonClick}>
           <FaArrowCircleLeft />
@@ -68,7 +67,16 @@ const Check1 = () => {
         <div style={{ display: 'flex' }}>
           <h1>1. เอกสารแสดงผลการเรียน </h1>
         </div>
+
         <div className={styles.Check1}>
+          <div>
+            <label>รหัสนักศึกษา : </label>
+            <input
+              id="StudentCode"
+              value={studentCode}
+              onChange={(e) => setStudentCode(e.target.value)}
+            />
+          </div>
           <h1>เอกสารแสดงผลการเรียน </h1>
           <input
             type="file"
@@ -85,6 +93,6 @@ const Check1 = () => {
       </form>
     </center>
   );
-};
+}
 
 export default Check1;
