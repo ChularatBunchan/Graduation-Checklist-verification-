@@ -41,17 +41,18 @@ const CheckStatus = () => {
                                 <th>Status</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            {graduate.map((graduated, index) => (
-                                <tr key={index}>
-                                    {checklistItems.map((item, index) => (
-                                        <th key={index}>{item}</th>
-                                    ))}
-                                    <td>{graduated.fi_id}</td>
-                                    <td>{graduated.gd_status}</td>
-                                </tr>
-                            ))}
-                        </tbody>
+                        {graduate.map((graduated, index) => (
+                            <tbody key={index}>
+                                {checklistItems.map((item, index) => (
+                                    <tr>
+                                        <td key={index}>{item}</td>
+                                        <td>{graduated.fi_id}</td>
+                                        <td>{graduated.gd_status}</td>
+                                    </tr>
+                                ))}
+
+                            </tbody>
+                        ))}
                     </table>
                 </div>
             </div>

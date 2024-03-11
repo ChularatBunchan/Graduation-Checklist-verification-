@@ -295,6 +295,55 @@ app.get("/uploadgra", async (req, res) => {
 });
 
 // -----------------------------------------------------------------
+// Create a schema for English subjects
+const studentsSchema = new mongoose.Schema({
+  st_id: String,
+  st_firstname: String,
+  st_lastname: String,
+  st_email: String,
+  st_phone: String,
+});
+
+// Create a model
+const Students = mongoose.model('students', studentsSchema);
+
+// Route to handle GET request for English subjects
+app.get('/students', async (req, res) => {
+  try {
+    const students = await Students.find();
+    res.json(students);
+  } catch (error) {
+    console.error('Error fetching students:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// -----------------------------------------------------------------
+
+const graSchema = new mongoose.Schema({
+  _id: String,
+  gd_status: String,
+  fi_id: String,
+  createdAt: String,
+  updatedAt: String,
+});
+
+// Create a model
+const Graduate = mongoose.model('students', graSchema);
+
+// Route to handle GET request for English subjects
+app.get('/graduate', async (req, res) => {
+  try {
+    const graduate = await Graduate.find();
+    res.json(graduate);
+  } catch (error) {
+    console.error('Error fetching students:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// -----------------------------------------------------------------
+
 
 app.get("/", async (req, res) => {
   res.send("Success yahhhhhh");
