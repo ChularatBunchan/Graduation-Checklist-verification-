@@ -4,15 +4,17 @@
 
 .footer {
   background-color: #07AA9F;
-  padding: 1rem 2rem;
-  bottom: 0;
-  border-radius: 1rem;
+  padding: 1rem 2rem ;
+  border-radius: 1rem ;
   color: #ffffff;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: .85rem;
   gap: 20px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
 
 .Mainn {
@@ -298,9 +300,6 @@
 .TableCheck tr{
   padding: 3rem;
 }
-
-
-
 
 .logo {
   position: relative;
