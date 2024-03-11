@@ -29,6 +29,7 @@ const CheckStatus = () => {
 
     return (
         <center style={{ marginTop: "2rem" }}>
+        <h1>wow</h1>
             <div className={`${styles.content}`}>
                 <h1>ตรวจสอบการจบการศึกษา</h1>
                 <div style={{ overflowX: 'auto' }}>
