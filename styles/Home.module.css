@@ -3,18 +3,20 @@
 }
 
 .footer {
-  background-color: #07AA9F;
-  padding: 1rem 2rem ;
   border-radius: 1rem ;
-  color: #ffffff;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: .85rem;
   gap: 20px;
-  position: fixed;
+  /* position: fixed;   */
+  /* width: 100%; */
+  background-color: #07AA9F;
+  padding: 1rem 2rem;
+  padding-right: 2rem; /* เพิ่มคุณสมบัติ padding-right */
   bottom: 0;
-  width: 100%;
+  border-radius: 1rem;
+  color: #ffffff;
 }
 
 .Mainn {
