@@ -110,8 +110,8 @@
   border-radius: .5rem;
   color: #EB6725;
   padding: 0;
+  padding-right: 1rem;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-
 }
 
 .left_content {
