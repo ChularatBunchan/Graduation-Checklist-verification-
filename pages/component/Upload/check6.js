@@ -26,11 +26,7 @@ const Check6 = () => {
 
     const getPdf = async () => {
         try {
-<<<<<<< HEAD
             const result = await axios.get("http://localhost:4000/uploadgra");
-=======
-            const result = await axios.get("http://localhost:4000/file");
->>>>>>> 151210cedc3fc7a5c52864d1adb879b42684f98d
             setPdfData(result.data.data);
         } catch (error) {
             console.error("Error fetching PDF data: ", error.message);
@@ -48,11 +44,7 @@ const Check6 = () => {
         formData.append("file", file);
 
         try {
-<<<<<<< HEAD
             const result = await axios.post("http://localhost:4000/uploadgra", formData);
-=======
-            const result = await axios.post("http://localhost:4000/file", formData);
->>>>>>> 151210cedc3fc7a5c52864d1adb879b42684f98d
             console.log(result);
             if (result.data.status === "ok") {
                 alert("Uploaded Successfully!!!");
@@ -65,29 +57,6 @@ const Check6 = () => {
             setUploadStatus("error");
         }
     };
-
-<<<<<<< HEAD
-    {/* ปุ่มบันทึก เชื่อมกับดาต้าเบส */ }
-    const ToDatabase = async (e) => {
-        e.preventDefault();
-
-        const dataToSave = {
-            file,
-            pdfData
-        };
-
-        try {
-            const response = await axios.post("http://localhost:4000/save-to-database", dataToSave);
-            console.log(response.data);
-            // alert("Data saved to the database successfully!");
-        } catch (error) {
-            console.error("Error saving data to the database: ", error.message);
-            // alert("Error saving data to the database. Please try again.");
-        }
-    }
-=======
-
->>>>>>> 151210cedc3fc7a5c52864d1adb879b42684f98d
     return (
         <center>
             <form className={`${styles.Check}`} onSubmit={onSubmit} >
