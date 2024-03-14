@@ -29,7 +29,7 @@ const Check4 = () => {
     
         const getPdf = async () => {
             try {
-                const result = await axios.get("http://localhost:8001/uploadeng");
+                const result = await axios.get("http://localhost:4000/uploadeng");
                 setPdfData(result.data.data);
             } catch (error) {
                 console.error("Error fetching PDF data: ", error.message);
@@ -49,7 +49,7 @@ const Check4 = () => {
             formData.append("cefrLevel", cefrLevel); // Add CEFR level to the formData
     
             try {
-                const result = await axios.post("http://localhost:8001/uploadeng", formData);
+                const result = await axios.post("http://localhost:4000/uploadeng", formData);
                 console.log(result);
                 if (result.data.status === "ok") {
                     alert("Uploaded Successfully!!!");

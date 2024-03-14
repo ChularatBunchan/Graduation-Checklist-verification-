@@ -26,7 +26,7 @@ const Check6 = () => {
 
     const getPdf = async () => {
         try {
-            const result = await axios.get("http://localhost:8001/uploadgra");
+            const result = await axios.get("http://localhost:4000/uploadgra");
             setPdfData(result.data.data);
         } catch (error) {
             console.error("Error fetching PDF data: ", error.message);
@@ -44,7 +44,7 @@ const Check6 = () => {
         formData.append("file", file);
 
         try {
-            const result = await axios.post("http://localhost:8001/uploadgra", formData);
+            const result = await axios.post("http://localhost:4000/uploadgra", formData);
             console.log(result);
             if (result.data.status === "ok") {
                 alert("Uploaded Successfully!!!");
@@ -68,7 +68,7 @@ const Check6 = () => {
         };
 
         try {
-            const response = await axios.post("http://localhost:8001/save-to-database", dataToSave);
+            const response = await axios.post("http://localhost:4000/save-to-database", dataToSave);
             console.log(response.data);
             // alert("Data saved to the database successfully!");
         } catch (error) {
