@@ -40,6 +40,7 @@ const Check3 = () => {
             alert("Please select a file.");
             return;
         }
+        router.push('./check4');
 
         const formData = new FormData();
         formData.append("file", file);

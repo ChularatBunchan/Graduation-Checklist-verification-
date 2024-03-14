@@ -3,6 +3,7 @@ import styles from '@/styles/Home.module.css';
 import { FaLocationDot, FaPhone } from "react-icons/fa6";
 import HeaderbarForlogin from "./HeaderbarForlogin";
 import HeaderBar from './Headerbar';
+import HeaderBarOff from '../Officer/HeaderbarOff';
 
 const Layout = ({ children, loggedIn, onLogin, onLogout }) => {
   return (
@@ -13,6 +14,7 @@ const Layout = ({ children, loggedIn, onLogin, onLogout }) => {
         <HeaderbarForlogin loggedIn={loggedIn}   />
       )} */}
       <HeaderBar />
+      {/* <HeaderBarOff /> */}
       <main className={styles.Mainn}>{children}</main>
       <footer className={styles.footer}>
         <h4>© 2021 Department of Computer and Information Sciences, Faculty of Applied Science (KMUTNB)</h4>

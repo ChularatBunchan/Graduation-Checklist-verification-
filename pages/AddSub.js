@@ -53,8 +53,7 @@ const AddSub = () => {
                 <table>
                     <thead>
                         <tr>
-                            <th>รหัสวิชา</th>
-                            <th>ชื่อวิชา</th>
+                            <th>วิชา</th>
                             <th>ปีการศึกษา</th>
                             <th>ภาคเรียนที่</th>
                             <th>หมายเหตุ</th>
@@ -62,8 +61,7 @@ const AddSub = () => {
                     </thead>
                     <tbody>
                         <tr>
-                            <td><input id='en_code' value={formData.en_code} onChange={handleChange} required /></td>
-                            <td><input id='en_name' value={formData.en_name} onChange={handleChange} required /></td>
+                            <td><input id='en_code' value={formData.en_code + formData.en_name} onChange={handleChange} required /></td>
                             <td><input id='en_year' value={formData.en_year} onChange={handleChange} required /></td>
                             <td><input id='en_semester' value={formData.en_semester} onChange={handleChange} required /></td>
                             <td><input id='en_note' value={formData.en_note} onChange={handleChange} required /></td>

@@ -79,17 +79,9 @@ const storage = multer.diskStorage({
       cb(null, "./file");
     },
     fileName: function (req, file, cb) {
-<<<<<<< HEAD
       const uniqueSuffix = Date.now();
-      cb(null, uniqueSuffix + file.originalname);
+      cb(null, file.originalname);
     },
-=======
-      // Rename the file to the student code
-      const studentCode = req.body.studentCode; // Assuming studentCode is sent in the request body
-      const fileName = studentCode + "_"  + file.originalname;
-      cb(null, fileName);
-  },
->>>>>>> c132dab050b034e1e677927f9bf64bb7d9f6272d
   });
   
   const upload = multer({ storage : storage });
@@ -102,8 +94,9 @@ const storage = multer.diskStorage({
   const Pdf = mongoose.model('Pdf', PdfSchema);
   
   app.post("/upload", upload.single("file"), async (req, res) => {
-    console.log(req.file);
-    const filename = req.file.filename;
+    console.log("NEWfile",req.file.originalname);
+    const filename = req.file.originalname;
+    console.log("file name",filename)
     try {
       await Pdf.create({ pdf: filename});
       res.send({ status: "ok" });
@@ -145,7 +138,7 @@ const Pdf2 = mongoose.model('Pdf2', PdfSchema2);
 
 app.post("/uploadintern", upload2.single("file"), async (req, res) => {
   console.log(req.file);
-  const filename = req.file.filename;
+  const filename = req.file.originalname;
   try {
     await Pdf2.create({ pdf: filename });
     res.send({ status: "ok" });
@@ -187,7 +180,7 @@ const Pdf3 = mongoose.model('Pdf3', PdfSchema3);
 
 app.post("/uploadtepc", upload3.single("file"), async (req, res) => {
   console.log(req.file);
-  const filename = req.file.filename;
+  const filename = req.file.originalname;
   try {
     await Pdf3.create({ pdf: filename });
     res.send({ status: "ok" });
@@ -228,7 +221,7 @@ const Pdf4 = mongoose.model('Pdf4', PdfSchema4);
 
 app.post("/uploadeng", upload4.single("file"), async (req, res) => {
   console.log(req.file);
-  const filename = req.file.filename;
+  const filename = req.file.originalname;
   try {
     await Pdf4.create({ pdf: filename });
     res.send({ status: "ok" });
@@ -269,7 +262,7 @@ const Pdf5 = mongoose.model('Pdf5', PdfSchema5);
 
 app.post("/uploadcer", upload5.single("file"), async (req, res) => {
   console.log(req.file);
-  const filename = req.file.filename;
+  const filename = req.file.originalname;
   try {
     await Pdf5.create({ pdf: filename });
     res.send({ status: "ok" });
@@ -310,7 +303,7 @@ const Pdf6 = mongoose.model('Pdf6', PdfSchema6);
 
 app.post("/uploadgra", upload6.single("file"), async (req, res) => {
   console.log(req.file);
-  const filename = req.file.filename;
+  const filename = req.file.originalname;
   try {
     await Pdf6.create({ pdf: filename });
     res.send({ status: "ok" });
@@ -363,7 +356,7 @@ const graSchema = new mongoose.Schema({
 });
 
 // Create a model
-const Graduate = mongoose.model('students', graSchema);
+const Graduate = mongoose.model('pdfs', graSchema);
 
 // Route to handle GET request for English subjects
 app.get('/graduate', async (req, res) => {

@@ -6,7 +6,6 @@ import { FaCircleCheck } from "react-icons/fa6";
 import { FaUserCircle ,FaRegCheckCircle  } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
 import { IoAddCircleOutline } from "react-icons/io5";
-
 import { TbEdit } from "react-icons/tb";
 
 const HeaderBarOff = () => {
@@ -44,19 +43,19 @@ const HeaderBarOff = () => {
           <ul className={`${styles.menuitem}`}>
             <li>
               <IoAddCircleOutline size={23} />
-              <Link href="Check" className={`${styles.item}`}> เพิ่มรายวิชา</Link>
+              <Link href="/AddSub" className={`${styles.item}`}> เพิ่มรายวิชา</Link>
             </li>
             <li>
               <TbEdit   size={23} />
-              <Link href="Calculate" className={`${styles.item}`}> แก้ไขรายวิชา</Link>
+              <Link href="/EditSub" className={`${styles.item}`}> แก้ไขรายวิชา</Link>
             </li>
             <li>
               <FaRegCheckCircle  size={23} />
-              <Link href="#" className={`${styles.item}`}> ตรวจสอบสถานะการจบการศึกษา</Link>
+              <Link href="/OffCheck" className={`${styles.item}`}> ตรวจสอบสถานะการจบการศึกษา</Link>
             </li>
             <li>
               <FiLogOut size={23} />
-              <Link href="#" className={`${styles.item}`}> ออกจากระบบ</Link>
+              <Link href="/Hello" className={`${styles.item}`}> ออกจากระบบ</Link>
             </li>
           </ul>
         </div>

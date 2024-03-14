@@ -1,22 +1,44 @@
 import React, { useState } from 'react';
 import styles from '@/styles/Headerbar.module.css'
 
-// import Student from './models/Student';
-
 const OffCheck = () => {
     // ประกาศตัวแปรสำหรับเก็บข้อมูลสถานะ
-    const [status, setStatus] = React.useState('รออนุมัติ');
+    const [status1, setStatus1] = useState('รออนุมัติ');
+    const [status2, setStatus2] = useState('รออนุมัติ');
+    const [status3, setStatus3] = useState('รออนุมัติ');
+    const [status4, setStatus4] = useState('รออนุมัติ');
+    const [status5, setStatus5] = useState('รออนุมัติ');
+    const [status6, setStatus6] = useState('รออนุมัติ');
 
     // ฟังก์ชันที่เปลี่ยนแปลงข้อมูลสถานะ
-    const handleChangeStatus = (e) => {
-        setStatus(e.target.value);
+    const handleChangeStatus1 = (e) => {
+        setStatus1(e.target.value);
     };
+    const handleChangeStatus2 = (e) => {
+        setStatus2(e.target.value);
+    };
+    const handleChangeStatus3 = (e) => {
+        setStatus3(e.target.value);
+    };
+    const handleChangeStatus4 = (e) => {
+        setStatus4(e.target.value);
+    };
+    const handleChangeStatus5 = (e) => {
+        setStatus5(e.target.value);
+    };
+    const handleChangeStatus6 = (e) => {
+        setStatus6(e.target.value);
+    };
+
+    const onSubmit = () => {
+
+    }
 
     return (
         <center style={{ marginTop: "2rem" }}>
             <div className={`${styles.content}`}>
                 <h1>ตรวจสอบการจบการศึกษา</h1>
-                <div style={{ overflowX: 'auto' }}>
+                <form style={{ overflowX: 'auto' }} onSubmit={onSubmit}>
                     <table className={`${styles.Table}`}>
                         {/* head */}
                         <thead>
@@ -34,7 +56,7 @@ const OffCheck = () => {
                                 <td>เอกสารแสดงผลการเรียน</td>
                                 <td>none</td>
                                 <td>
-                                    <select value={status} onChange={handleChangeStatus}>
+                                    <select value={status1} onChange={handleChangeStatus1}>
                                         <option value="รออนุมัติ">รออนุมัติ</option>
                                         <option value="ผ่าน">ผ่าน</option>
                                         <option value="ไม่ผ่าน">ไม่ผ่าน</option>
@@ -47,7 +69,7 @@ const OffCheck = () => {
                                 <td>หนังสือรับรองการฝึกงาน</td>
                                 <td>none</td>
                                 <td>
-                                    <select value={status} onChange={handleChangeStatus}>
+                                    <select value={status2} onChange={handleChangeStatus2}>
                                         <option value="รออนุมัติ">รออนุมัติ</option>
                                         <option value="ผ่าน">ผ่าน</option>
                                         <option value="ไม่ผ่าน">ไม่ผ่าน</option>
@@ -60,7 +82,7 @@ const OffCheck = () => {
                                 <td>English Proficiency Exam</td>
                                 <td>none</td>
                                 <td>
-                                    <select value={status} onChange={handleChangeStatus}>
+                                    <select value={status3} onChange={handleChangeStatus3}>
                                         <option value="รออนุมัติ">รออนุมัติ</option>
                                         <option value="ผ่าน">ผ่าน</option>
                                         <option value="ไม่ผ่าน">ไม่ผ่าน</option>
@@ -72,7 +94,7 @@ const OffCheck = () => {
                                 <td>คะแนนทดสอบวัดความสามารถภาษาอังกฤษ</td>
                                 <td>none</td>
                                 <td>
-                                    <select value={status} onChange={handleChangeStatus}>
+                                    <select value={status4} onChange={handleChangeStatus4}>
                                         <option value="รออนุมัติ">รออนุมัติ</option>
                                         <option value="ผ่าน">ผ่าน</option>
                                         <option value="ไม่ผ่าน">ไม่ผ่าน</option>
@@ -84,7 +106,7 @@ const OffCheck = () => {
                                 <td>ใบตรวจปริญญานิพนธ์</td>
                                 <td>none</td>
                                 <td>
-                                    <select value={status} onChange={handleChangeStatus}>
+                                    <select value={status5} onChange={handleChangeStatus5}>
                                         <option value="รออนุมัติ">รออนุมัติ</option>
                                         <option value="ผ่าน">ผ่าน</option>
                                         <option value="ไม่ผ่าน">ไม่ผ่าน</option>
@@ -96,7 +118,7 @@ const OffCheck = () => {
                                 <td>ข้อมูล พ.ศ ขึ้นในระบบ</td>
                                 <td>none</td>
                                 <td>
-                                    <select value={status} onChange={handleChangeStatus}>
+                                    <select value={status6} onChange={handleChangeStatus6}>
                                         <option value="รออนุมัติ">รออนุมัติ</option>
                                         <option value="ผ่าน">ผ่าน</option>
                                         <option value="ไม่ผ่าน">ไม่ผ่าน</option>
@@ -104,43 +126,16 @@ const OffCheck = () => {
                                 </td>
                             </tr>
                         </tbody>
+                        <br></br>
                     </table>
-                </div>
-                {/* <tbody>
-          {students.map((student) => (
-            <tr key={student._id}>
-              <td>{student.firstName}</td>
-              <td>{student.lastName}</td>
-              <td>{student.grade}</td>
-              <td>{student.subject}</td>
-            </tr>
-          ))}
-        </tbody> */}
+                    <input style={{alignItems: "center"}} type='submit' value={'Submit'} />
+                </form>
             </div>
         </center>
 
     );
 };
 
-export async function getServerSideProps() {
-    try {
-        await mongoose.connect(process.env.MONGODB_URI, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
-        console.log('Connected to MongoDB');
-    } catch (err) {
-        console.error(err.message);
-        process.exit(1);
-    }
 
-    const students = await Student.find();
-
-    return {
-        props: {
-            students: JSON.parse(JSON.stringify(students)),
-        },
-    };
-}
 
 export default OffCheck;
