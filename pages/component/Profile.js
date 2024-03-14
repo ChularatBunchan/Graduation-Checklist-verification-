@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'; // Import Axios
+import axios from 'axios';
 import styles from '@/styles/Headerbar.module.css';
 
 const Profile = () => {
@@ -8,7 +8,7 @@ const Profile = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:8001/students');
+                const response = await axios.get('http://localhost:4000/students');
                 setStudents(response.data);
             } catch (error) {
                 console.error('Error fetching data:', error);

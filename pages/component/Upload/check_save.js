@@ -14,7 +14,6 @@ const Check1 = () => {
     const handleBackButtonClick = () => {
         console.log("Next button clicked!");
         router.push('/component/Hello');
-
     }
 
     const [uploadedFile, setUploadedFile] = useState(null);
@@ -43,7 +42,6 @@ const Check1 = () => {
                 method: 'POST',
                 body: formData
             });
-
 
             if (response.ok) {
                 const data = await response.json();

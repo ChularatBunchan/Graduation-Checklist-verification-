@@ -26,7 +26,11 @@ const Check6 = () => {
 
     const getPdf = async () => {
         try {
+<<<<<<< HEAD
             const result = await axios.get("http://localhost:4000/uploadgra");
+=======
+            const result = await axios.get("http://localhost:4000/file");
+>>>>>>> 151210cedc3fc7a5c52864d1adb879b42684f98d
             setPdfData(result.data.data);
         } catch (error) {
             console.error("Error fetching PDF data: ", error.message);
@@ -44,7 +48,11 @@ const Check6 = () => {
         formData.append("file", file);
 
         try {
+<<<<<<< HEAD
             const result = await axios.post("http://localhost:4000/uploadgra", formData);
+=======
+            const result = await axios.post("http://localhost:4000/file", formData);
+>>>>>>> 151210cedc3fc7a5c52864d1adb879b42684f98d
             console.log(result);
             if (result.data.status === "ok") {
                 alert("Uploaded Successfully!!!");
@@ -58,6 +66,7 @@ const Check6 = () => {
         }
     };
 
+<<<<<<< HEAD
     {/* ปุ่มบันทึก เชื่อมกับดาต้าเบส */ }
     const ToDatabase = async (e) => {
         e.preventDefault();
@@ -76,6 +85,9 @@ const Check6 = () => {
             // alert("Error saving data to the database. Please try again.");
         }
     }
+=======
+
+>>>>>>> 151210cedc3fc7a5c52864d1adb879b42684f98d
     return (
         <center>
             <form className={`${styles.Check}`} onSubmit={onSubmit} >
@@ -97,7 +109,7 @@ const Check6 = () => {
                         <FaArrowCircleLeft />
                     </span><br></br>
                     <span onClick={handleNextButtonClick} style={{ float: "right" }} >
-                        <button onClick={ToDatabase}>save</button>
+                        {/* <button onClick={ToDatabase}>save</button> */}
                     </span>
                 </div>
                 <br></br>

@@ -22,11 +22,11 @@ const Profile = () => {
     return (
         <center style={{ marginTop: "2rem" }}>
             <div className={`${styles.content}`}>
-                {students.map((student, index) => (
+                {students.map((students, index) => (
                     <div key={index}>
-                        <p>Name: {student.st_firstname} {student.st_lastname}</p>
-                        <p>Email: {student.st_email}</p>
-                        <p>Phone: {student.st_phone}</p>
+                        <p>รหัสนักศึกษา: {students.username}</p>
+                        <p>ชื่อ: {students.displayname} </p>
+                        <p>Email: {students.email}</p>
                     </div>
                 ))}
             </div>

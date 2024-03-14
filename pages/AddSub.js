@@ -24,7 +24,7 @@ const AddSub = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:4000/AddSub', formData);
+            const response = await axios.post('http://localhost:4000/english_subject', formData);
             console.log('Subject added:', response.data);
             alert("Subject added successfully!");
             // Reset form after successful submission
