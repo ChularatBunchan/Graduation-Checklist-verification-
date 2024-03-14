@@ -27,7 +27,7 @@ const Check3 = () => {
 
     const getPdf = async () => {
         try {
-            const result = await axios.get("http://localhost:8001/uploadtepc");
+            const result = await axios.get("http://localhost:4000/uploadtepc");
             setPdfData(result.data.data);
         } catch (error) {
             console.error("Error fetching PDF data: ", error.message);
@@ -35,7 +35,7 @@ const Check3 = () => {
     };
 
     const onSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault(); // Prevent default form submission
         if (!file) {
             alert("Please select a file.");
             return;
@@ -46,7 +46,7 @@ const Check3 = () => {
         formData.append("cefrLevel", cefrLevel); // Add CEFR level to the formData
 
         try {
-            const result = await axios.post("http://localhost:8001/uploadtepc", formData);
+            const result = await axios.post("http://localhost:4000/uploadtepc", formData);
             console.log(result);
             if (result.data.status === "ok") {
                 alert("Uploaded Successfully!!!");
@@ -92,7 +92,7 @@ const Check3 = () => {
                     <input
                         type="file"
                         name="file"
-                        onChange={(e) => setFile(e.target.files[0])}
+                        onChange={(e) => setFile(e.target.files[0])} // Use e.target.files[0] to get the selected file
                     />
                     <input type="submit" value="Upload" />
                 </div>

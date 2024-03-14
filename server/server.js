@@ -31,6 +31,31 @@ app.use(cors())
 
 // -----------------------------------------------------------------
 
+const subjectSchema = new mongoose.Schema({
+  en_code: String,
+  en_name: String,
+  en_year: String,
+  en_semester: String,
+  en_note: String
+});
+
+const Subject = mongoose.model('english_subjects', subjectSchema);
+
+// Add a new subject
+app.post('/AddSub', async (req, res) => {
+  try {
+    const { code, name, year, semester, note } = req.body;
+    const subject = new Subject({ code, name, year, semester, note });
+    await subject.save();
+    res.status(201).json(subject);
+  } catch (err) {
+    console.error('Error adding subject:', err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// -----------------------------------------------------------------
+
 const EngSubSchema = new mongoose.Schema({
   en_id: Number,
   en_code: String
@@ -54,9 +79,17 @@ const storage = multer.diskStorage({
       cb(null, "./file");
     },
     fileName: function (req, file, cb) {
+<<<<<<< HEAD
       const uniqueSuffix = Date.now();
       cb(null, uniqueSuffix + file.originalname);
     },
+=======
+      // Rename the file to the student code
+      const studentCode = req.body.studentCode; // Assuming studentCode is sent in the request body
+      const fileName = studentCode + "_"  + file.originalname;
+      cb(null, fileName);
+  },
+>>>>>>> c132dab050b034e1e677927f9bf64bb7d9f6272d
   });
   
   const upload = multer({ storage : storage });
@@ -64,7 +97,6 @@ const storage = multer.diskStorage({
   const PdfSchema = mongoose.Schema({
     title: String,
     pdf: String,
-    image: Buffer
   });
   
   const Pdf = mongoose.model('Pdf', PdfSchema);
@@ -96,12 +128,13 @@ const storage2 = multer.diskStorage({
     cb(null, "./fileintern");
   },
   fileName: function (req, file, cb) {
-    const uniqueSuffix = Date.now();
-    cb(null, uniqueSuffix + file.originalname);
+    const studentCode = req.body.studentCode; // Assuming studentCode is sent in the request body
+    const fileName = studentCode + "_"  + file.originalname;
+    cb(null, fileName);
   },
 });
 
-const upload2 = multer({ storage2 : storage2 });
+const upload2 = multer({ storage : storage2 });
 
 const PdfSchema2 = mongoose.Schema({
   title: String,
@@ -137,12 +170,13 @@ const storage3 = multer.diskStorage({
     cb(null, "./filetepc");
   },
   fileName: function (req, file, cb) {
-    const uniqueSuffix = Date.now();
-    cb(null, uniqueSuffix + file.originalname);
+    const studentCode = req.body.studentCode; // Assuming studentCode is sent in the request body
+    const fileName = studentCode + "_"  + file.originalname;
+    cb(null, fileName);
   },
 });
 
-const upload3 = multer({ storage: storage3 });
+const upload3 = multer({ storage : storage3 });
 
 const PdfSchema3 = mongoose.Schema({
   title: String,
@@ -155,7 +189,7 @@ app.post("/uploadtepc", upload3.single("file"), async (req, res) => {
   console.log(req.file);
   const filename = req.file.filename;
   try {
-    await Pdf3.create({ pdf: filename , image: buffer });
+    await Pdf3.create({ pdf: filename });
     res.send({ status: "ok" });
   } catch (error) {
     res.json({ status: error });
@@ -183,7 +217,7 @@ const storage4 = multer.diskStorage({
   },
 });
 
-const upload4 = multer({ storage4 : storage4 });
+const upload4 = multer({ storage : storage4 });
 
 const PdfSchema4 = mongoose.Schema({
   title: String,
@@ -224,14 +258,14 @@ const storage5 = multer.diskStorage({
   },
 });
 
-const upload5 = multer({ storage5 : storage5 });
+const upload5 = multer({ storage : storage5 });
 
 const PdfSchema5 = mongoose.Schema({
   title: String,
-  pdf5: String
+  pdf: String
 });
 
-const Pdf5= mongoose.model('Pdf5', PdfSchema5);
+const Pdf5 = mongoose.model('Pdf5', PdfSchema5);
 
 app.post("/uploadcer", upload5.single("file"), async (req, res) => {
   console.log(req.file);
@@ -257,7 +291,7 @@ app.get("/uploadcer", async (req, res) => {
 
 const storage6 = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "./filegra");
+    cb(null, "./filecer");
   },
   fileName: function (req, file, cb) {
     const uniqueSuffix = Date.now();
@@ -265,7 +299,7 @@ const storage6 = multer.diskStorage({
   },
 });
 
-const upload6 = multer({ storage6 : storage6 });
+const upload6 = multer({ storage : storage6 });
 
 const PdfSchema6 = mongoose.Schema({
   title: String,
@@ -276,7 +310,7 @@ const Pdf6 = mongoose.model('Pdf6', PdfSchema6);
 
 app.post("/uploadgra", upload6.single("file"), async (req, res) => {
   console.log(req.file);
-  const filename = req.file;
+  const filename = req.file.filename;
   try {
     await Pdf6.create({ pdf: filename });
     res.send({ status: "ok" });
@@ -287,7 +321,7 @@ app.post("/uploadgra", upload6.single("file"), async (req, res) => {
 
 app.get("/uploadgra", async (req, res) => {
   try {
-    const data = await Pdf6.find({});
+    const data = await Pdf5.find({});
     res.send({ status: "ok", data: data });
   } catch (error) {
     res.json({ status: error });
@@ -349,6 +383,6 @@ app.get("/", async (req, res) => {
   res.send("Success yahhhhhh");
 });
 
-app.listen(8001, () => {
-  console.log('server is running port 8001');
+app.listen(4000, () => {
+  console.log('server is running port 4000');
 });

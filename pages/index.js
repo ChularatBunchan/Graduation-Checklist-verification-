@@ -3,6 +3,7 @@ import styles from '@/styles/Home.module.css';
 import React from 'react';
 import Hello from './component/Hello';
 import Login from './Login';
+import AddSub from './component/Officer/AddSub';
 
 const Home = () => {
 
@@ -18,7 +19,8 @@ const Home = () => {
       </Head>
 
       <main className={`${styles.main}`}>
-        <Hello />
+        {/* <Hello /> */}
+        <AddSub />
       </main>
     </div>
   );

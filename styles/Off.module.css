@@ -26,6 +26,7 @@
 }
 
 .Basic input {
+<<<<<<< HEAD
   width: 10vmax;
  padding: 1rem;
  border-radius: 1rem;
@@ -33,6 +34,15 @@
  background-color: #F9F9F9;
  color: #07AA9F;
 }
+=======
+    width: 10vmax;
+   padding: 1rem;
+   border-radius: 1rem;
+   border: 2px solid #07AA9F;
+   background-color: #F9F9F9;
+   color: #07AA9F;
+ }
+>>>>>>> c132dab050b034e1e677927f9bf64bb7d9f6272d
 
 /* table {
 
