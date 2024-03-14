@@ -3,13 +3,14 @@ import axios from 'axios'; // Import Axios
 import styles from '@/styles/Headerbar.module.css';
 
 const StatusCheck = () => {
-    const [graduate, setGraduate] = useState([]);
+    const [graduate_checking, setGraduate] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:4000/graduate');
+                const response = await axios.get('http://localhost:4000/graduate-checking/' + "s6304062616196");
                 setGraduate(response.data);
+                console.log("data ", graduate_checking);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -47,7 +48,7 @@ const StatusCheck = () => {
 
                                     <tr key={index}>
                                         <td key={index}>{item}</td>
-                                        <td>{item.fi_id}</td>
+                                        <td>{item.username}</td>
                                         <td>{item.gd_status}</td>
                                     </tr>
                                 ))}

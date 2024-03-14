@@ -19,7 +19,8 @@ const Home = () => {
       </Head>
 
       <main className={`${styles.main}`}>
-        <Hello />
+        {/* <Hello /> */}
+        <Login />
         {/* <AddSub /> */}
       </main>
     </div>

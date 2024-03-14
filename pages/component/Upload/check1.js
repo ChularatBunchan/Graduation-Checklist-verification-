@@ -24,13 +24,12 @@ function Check1() {
 
   const getPdf = async () => {
     try {
-      const result = await axios.get("http://localhost:8000/upload");
+      const result = await axios.get("http://localhost:4000/upload");
       setPdfData(result.data.data);
     } catch (error) {
       console.error("Error fetching PDF data: ", error.message);
     }
   };
-
 
   const onSubmit = async (e) => {
     e.preventDefault();

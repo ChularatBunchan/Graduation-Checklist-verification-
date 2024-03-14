@@ -26,11 +26,7 @@ const Check6 = () => {
 
     const getPdf = async () => {
         try {
-<<<<<<< HEAD
             const result = await axios.get("http://localhost:4000/file");
-=======
-            const result = await axios.get("http://localhost:4000/uploadgra");
->>>>>>> c132dab050b034e1e677927f9bf64bb7d9f6272d
             setPdfData(result.data.data);
         } catch (error) {
             console.error("Error fetching PDF data: ", error.message);
@@ -48,11 +44,7 @@ const Check6 = () => {
         formData.append("file", file);
 
         try {
-<<<<<<< HEAD
             const result = await axios.post("http://localhost:4000/file", formData);
-=======
-            const result = await axios.post("http://localhost:4000/uploadgra", formData);
->>>>>>> c132dab050b034e1e677927f9bf64bb7d9f6272d
             console.log(result);
             if (result.data.status === "ok") {
                 alert("Uploaded Successfully!!!");
@@ -66,28 +58,6 @@ const Check6 = () => {
         }
     };
 
-<<<<<<< HEAD
-=======
-    {/* ปุ่มบันทึก เชื่อมกับดาต้าเบส */ }
-    const ToDatabase = async (e) => {
-        e.preventDefault();
-
-        const dataToSave = {
-            file,
-            pdfData
-        };
-
-        try {
-            const response = await axios.post("http://localhost:4000/save-to-database", dataToSave);
-            console.log(response.data);
-            // alert("Data saved to the database successfully!");
-        } catch (error) {
-            console.error("Error saving data to the database: ", error.message);
-            // alert("Error saving data to the database. Please try again.");
-        }
-    }
-
->>>>>>> c132dab050b034e1e677927f9bf64bb7d9f6272d
 
     return (
         <center>
@@ -110,7 +80,7 @@ const Check6 = () => {
                         <FaArrowCircleLeft />
                     </span><br></br>
                     <span onClick={handleNextButtonClick} style={{ float: "right" }} >
-                        <button onClick={ToDatabase}>save</button>
+                        {/* <button onClick={ToDatabase}>save</button> */}
                     </span>
                 </div>
                 <br></br>

@@ -1,43 +1,82 @@
-import { useState } from 'react';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
-import styles from '@/styles/Home.module.css';
-import { Button } from '@material-tailwind/react';
+import React, { useState } from "react";
+import { useRouter } from "next/router";
+import Link from "next/link";
+import styles from "@/styles/Home.module.css";
+import { Button } from "@material-tailwind/react";
+import axios from "axios";
+import { setCookie } from 'nookies';
 
 const Login = () => {
-    const router = useRouter();
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
+  const router = useRouter();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-    const onSubmit = (e) => {
-        e.preventDefault();
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("http://localhost:4000/auth/login", {
+        username,
+        password,
+      });
+      let playload = {
+        username: response.data.userInfo.username,
+        displayname: response.data.userInfo.displayname,
+        email: response.data.userInfo.email,
+        account_type: response.data.userInfo.account_type,
+      };
+      const res = await axios.post("http://localhost:4000/students", playload);
+      //console.log("student:", res.data);
+      //console.log("student:", res.data.username);
+      router.push("/Hello");
 
-        // Perform username and password validation here
-        if (username === 'your_username' && password === 'your_password') {
-            // If credentials are valid, redirect to the Hello page
-            router.push('/Hello');
-        } else {
-            // If credentials are invalid, display error message
-            setError('Invalid username or password');
-        }
+      setCookie(null, "username", res.data.username, {
+        maxAge: 30 * 24 * 60 * 60, 
+        path: "/", 
+      });
+      //   if (response.data.userInfo.account_type=="student")
+      //   {
+      //     router.push("/Hello");
+      //   }
+      //   else if (response.data.userInfo.account_type=="personel")
+      //   {
+      //     router.push("/AddSub");
+      //   }
+    } catch (error) {
+      console.error("Error logging in:", error);
+      setError("Invalid username or password");
     }
+  };
 
-    return (
-        <center>
-            <div className={`${styles.Login}`}>
-                <form onSubmit={onSubmit}>
-                    <label>ICIT Account</label><br />
-                    <input value={username} onChange={(e) => setUsername(e.target.value)} /><br />
-                    <label>Password</label><br />
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} /><br />
-                    <Link href='https://account.kmutnb.ac.th/web/recovery/index'>forgot password?</Link> <br />
-                    <Button type='submit'>Sign in</Button>
-                    {error && <p>{error}</p>} {/* Display error message if credentials are invalid */}
-                </form>
-            </div>
-        </center>
-    )
-}
+  return (
+    <center>
+      <div className={`${styles.Login}`}>
+        <form onSubmit={onSubmit}>
+          <label>ICIT Account</label>
+          <br />
+          <input
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <br />
+          <label>Password</label>
+          <br />
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <br />
+          <Link href="https://account.kmutnb.ac.th/web/recovery/index">
+            forgot password?
+          </Link>{" "}
+          <br />
+          <Button type="submit">Sign in</Button>
+          {error && <p>{error}</p>}
+        </form>
+      </div>
+    </center>
+  );
+};
 
 export default Login;
