@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import styles from '@/styles/Home.module.css';
 import React from 'react';
-import Hello from './component/Hello';
+import Hello from './Hello';
 import Login from './Login';
 import AddSub from './component/Officer/AddSub';
 
@@ -19,8 +19,8 @@ const Home = () => {
       </Head>
 
       <main className={`${styles.main}`}>
-        {/* <Hello /> */}
-        <AddSub />
+        <Hello />
+        {/* <AddSub /> */}
       </main>
     </div>
   );

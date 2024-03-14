@@ -24,11 +24,7 @@ function Check1() {
 
   const getPdf = async () => {
     try {
-<<<<<<< HEAD
       const result = await axios.get("http://localhost:8000/upload");
-=======
-      const result = await axios.get("http://localhost:4000/upload");
->>>>>>> c132dab050b034e1e677927f9bf64bb7d9f6272d
       setPdfData(result.data.data);
     } catch (error) {
       console.error("Error fetching PDF data: ", error.message);
