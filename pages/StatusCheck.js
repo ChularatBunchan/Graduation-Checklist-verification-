@@ -32,25 +32,30 @@ const StatusCheck = () => {
             <div className={`${styles.content}`}>
                 <h1>ตรวจสอบการจบการศึกษา</h1>
                 <div style={{ overflowX: 'auto' }}>
-                    <table className={`${styles.Table}`}>
+                    <div className={`${styles.Table}`}>
                         {/* head */}
-                        <thead>
-                            <tr>
-                                {checklistItems.map((item, index) => (
-                                    <th key={index}>{item}</th>
-                                ))}
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {graduate.map((graduated, index) => (
-                                <tr key={index}>
-                                    <td>{graduated.fi_id}</td>
-                                    <td>{graduated.gd_status}</td>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Checklist</th>
+                                    <th>file</th>
+                                    <th>status</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {checklistItems.map((item, index) => (
+
+                                    <tr key={index}>
+                                        <td key={index}>{item}</td>
+                                        <td>{item.fi_id}</td>
+                                        <td>{item.gd_status}</td>
+                                    </tr>
+                                ))}
+
+                            </tbody>
+                        </table>
+
+                    </div>
                 </div>
             </div>
         </center>
