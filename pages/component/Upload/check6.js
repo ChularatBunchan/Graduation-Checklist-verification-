@@ -26,7 +26,11 @@ const Check6 = () => {
 
     const getPdf = async () => {
         try {
+<<<<<<< HEAD
+            const result = await axios.get("http://localhost:4000/file");
+=======
             const result = await axios.get("http://localhost:4000/uploadgra");
+>>>>>>> c132dab050b034e1e677927f9bf64bb7d9f6272d
             setPdfData(result.data.data);
         } catch (error) {
             console.error("Error fetching PDF data: ", error.message);
@@ -44,7 +48,11 @@ const Check6 = () => {
         formData.append("file", file);
 
         try {
+<<<<<<< HEAD
+            const result = await axios.post("http://localhost:4000/file", formData);
+=======
             const result = await axios.post("http://localhost:4000/uploadgra", formData);
+>>>>>>> c132dab050b034e1e677927f9bf64bb7d9f6272d
             console.log(result);
             if (result.data.status === "ok") {
                 alert("Uploaded Successfully!!!");
@@ -58,6 +66,8 @@ const Check6 = () => {
         }
     };
 
+<<<<<<< HEAD
+=======
     {/* ปุ่มบันทึก เชื่อมกับดาต้าเบส */ }
     const ToDatabase = async (e) => {
         e.preventDefault();
@@ -77,6 +87,7 @@ const Check6 = () => {
         }
     }
 
+>>>>>>> c132dab050b034e1e677927f9bf64bb7d9f6272d
 
     return (
         <center>

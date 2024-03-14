@@ -39,9 +39,11 @@ const Hello = () => {
                     <table>
                         <thead>
                             <tr>
+                                <th>ปีการศึกษา</th>
+                                <th>ภาคเรียนที่</th>
                                 <th>รหัสวิชา</th>
                                 <th>ชื่อวิชา</th>
-                                <th>ปีการศึกษา</th>
+                                <th>หมายเหตุ</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -63,4 +65,3 @@ const Hello = () => {
 };
 
 export default Hello;
-

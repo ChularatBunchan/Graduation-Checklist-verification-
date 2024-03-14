@@ -24,7 +24,11 @@ function Check1() {
 
   const getPdf = async () => {
     try {
+<<<<<<< HEAD
+      const result = await axios.get("http://localhost:8000/upload");
+=======
       const result = await axios.get("http://localhost:4000/upload");
+>>>>>>> c132dab050b034e1e677927f9bf64bb7d9f6272d
       setPdfData(result.data.data);
     } catch (error) {
       console.error("Error fetching PDF data: ", error.message);
@@ -79,10 +83,7 @@ function Check1() {
             />
           </div>
           <h1>เอกสารแสดงผลการเรียน </h1>
-          <input
-            type="file"
-            name="file"
-            onChange={(e) => setFile(e.target.files[0])}
+          <input type="file" name="file" onChange={(e) => setFile(e.target.files[0])}
           />
           <input type="submit" value="Upload" />
         </div>

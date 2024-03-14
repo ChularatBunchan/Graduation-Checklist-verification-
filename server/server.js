@@ -79,11 +79,17 @@ const storage = multer.diskStorage({
       cb(null, "./file");
     },
     fileName: function (req, file, cb) {
+<<<<<<< HEAD
+      const uniqueSuffix = Date.now();
+      cb(null, uniqueSuffix + file.originalname);
+    },
+=======
       // Rename the file to the student code
       const studentCode = req.body.studentCode; // Assuming studentCode is sent in the request body
       const fileName = studentCode + "_"  + file.originalname;
       cb(null, fileName);
   },
+>>>>>>> c132dab050b034e1e677927f9bf64bb7d9f6272d
   });
   
   const upload = multer({ storage : storage });
@@ -357,7 +363,7 @@ const graSchema = new mongoose.Schema({
 });
 
 // Create a model
-const Graduate = mongoose.model('graduate_checkings', graSchema);
+const Graduate = mongoose.model('students', graSchema);
 
 // Route to handle GET request for English subjects
 app.get('/graduate', async (req, res) => {
