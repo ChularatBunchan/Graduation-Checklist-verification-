@@ -39,7 +39,7 @@ const Check2 = () => {
 
     const getPdf = async () => {
         try {
-            const result = await axios.get("http://localhost:8001/uploadinturn");
+            const result = await axios.get("http://localhost:4000/file");
             setPdfData(result.data.data);
         } catch (error) {
             console.error("Error fetching PDF data: ", error.message);
@@ -57,7 +57,7 @@ const Check2 = () => {
     formData.append("file", file);
 
         try {
-            const result = await axios.post("http://localhost:8001/uploadinturn", formData);
+            const result = await axios.post("http://localhost:4000/file", formData);
             console.log(result);
             if (result.data.status === "ok") {
                 alert("Uploaded Successfully!!!");
@@ -71,8 +71,6 @@ const Check2 = () => {
         }
     };
 
-
-
   return (
     <center>
       <form className={`${styles.Check}`} onSubmit={onSubmit}>
@@ -82,11 +80,7 @@ const Check2 = () => {
         </div>
         <div className={`${styles.Check1}`}>
           <h1>หนังสือรับรองผลการฝึกงาน</h1>
-          <input
-            type="file"
-            name="file"
-            onChange={handleFileChange}
-          />
+          <input type="file" name="file" onChange={handleFileChange}/>
           <input type="submit" value="Upload" />
         </div>
         <div style={{ display: "flex", justifyContent: "space-around" }}>

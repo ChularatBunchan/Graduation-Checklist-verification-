@@ -79,10 +79,7 @@ function Check1() {
             />
           </div>
           <h1>เอกสารแสดงผลการเรียน </h1>
-          <input
-            type="file"
-            name="file"
-            onChange={(e) => setFile(e.target.files[0])}
+          <input type="file" name="file" onChange={(e) => setFile(e.target.files[0])}
           />
           <input type="submit" value="Upload" />
         </div>
