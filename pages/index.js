@@ -4,6 +4,7 @@ import React from 'react';
 import Hello from './Hello';
 import Login from './Login';
 import AddSub from './AddSub';
+import OffCheck from './OffCheck';
 
 const Home = () => {
 
@@ -19,9 +20,10 @@ const Home = () => {
       </Head>
 
       <main className={`${styles.main}`}>
-        {/* <Hello /> */}
-        <Login />
+        <Hello />
+        {/* <Login /> */}
         {/* <AddSub /> */}
+        {/* <OffCheck /> */}
       </main>
     </div>
   );

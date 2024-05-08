@@ -67,8 +67,8 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <br />
-          <Link href="https://account.kmutnb.ac.th/web/recovery/index">
-            forgot password?
+          <Link href="https://account.kmutnb.ac.th/web/recovery/index" target="_blank" style={{color:"#EB6725", fontWeight:"bold"}}>
+          Forgot ICIT Account Password
           </Link>{" "}
           <br />
           <Button type="submit">Sign in</Button>

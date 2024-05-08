@@ -46,6 +46,14 @@ const Cal = () => {
         console.log('gpa =',gpa)
         console.log('totalCG =',totalCG)
     };
+
+    const limit = (element) => {
+        const max_chars = 4;
+        const value = element.target.value.replace(/\D/g, ''); // เอาเฉพาะตัวเลขโดยไม่รวมจุดทศนิยม
+        if (value.length > max_chars) {
+            element.target.value = value.substr(0, max_chars);
+        }
+    };
     
 
     return (
@@ -58,14 +66,14 @@ const Cal = () => {
                         <div className={`${styles.Calflex}`}>
                             <div style={{ flexDirection: 'column', width: "50%" }}>
                                 <div className={`${styles.CalBox}`}>
-                                    <center style={{ display: "flex", gap: '1rem' }}>
+                                    <center>
                                         <div>
                                             <label>จำนวนหน่วยกิจที่คิดเกรด (CG)</label><br></br>
-                                            <input type='number' min={'0.00'} id='TotalCG' name='CG' required></input><br />
+                                            <input type='number' id='TotalCG' name='CG' onKeyDown={limit} onKeyUp={limit} required></input><br />
                                         </div>
                                         <div>
                                             <label> ค่าคะแนน (GP)</label><br></br>
-                                            <input type='number' min={'0.00'} id='TotalGP' name='GP' required></input>
+                                            <input type='number' id='TotalGP' name='GP' onKeyDown={limit} onKeyUp={limit} required></input>
                                         </div>
                                     </center><br ></br>
                                 </div>

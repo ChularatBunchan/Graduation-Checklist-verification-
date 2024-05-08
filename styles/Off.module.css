@@ -23,6 +23,7 @@
   color: #ffffff;
   border-radius: 1rem;
   cursor: pointer;
+  font-size: larger;
 }
 
 .Basic input {
@@ -32,4 +33,11 @@
  border: 2px solid #07AA9F;
  background-color: #F9F9F9;
  color: #07AA9F;
+ font-weight: bolder;
+ font-size: large;
+}
+
+.Basic table{
+  float: left;
+  margin-bottom: 2rem;
 }

@@ -32,39 +32,30 @@ app.use(cors())
 // -----------------------------------------------------------------
 
 const subjectSchema = new mongoose.Schema({
-  en_code: String,
   en_name: String,
-  en_year: String,
-  en_semester: String,
+  en_year: Number,
+  en_semester: Number,
   en_note: String
 });
 
 const Subject = mongoose.model('english_subjects', subjectSchema);
 
-// Add a new subject
-app.post('/AddSub', async (req, res) => {
+//Add a new subject
+app.post('/english_subjects', async (req, res) => {
   try {
-    const { code, name, year, semester, note } = req.body;
-    const subject = new Subject({ code, name, year, semester, note });
+    const { en_name, en_year, en_semester, en_note } = req.body;
+    const subject = new Subject({ en_name, en_year, en_semester, en_note });
     await subject.save();
-    res.status(201).json(subject);
+    res.status(200).json(subject);
   } catch (err) {
     console.error('Error adding subject:', err);
     res.status(500).send('Internal Server Error');
   }
 });
 
-// -----------------------------------------------------------------
-
-const EngSubSchema = new mongoose.Schema({
-  en_id: Number,
-  en_code: String
-});
-const EngSub = mongoose.model('EngSub' , EngSubSchema )
-
-app.get('/engsub', async (req,res) => {
+app.get('/english_subjects', async (req,res) => {
   try{
-    const engsub = await EngSub.find();
+    const engsub = await Subject.find();
     res.json(engsub)
   } catch (error) {
     console.error('Error Eng subjects na',error)
@@ -368,6 +359,7 @@ app.get('/graduate', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
+
 
 // -----------------------------------------------------------------
 

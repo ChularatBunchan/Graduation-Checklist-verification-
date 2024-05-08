@@ -136,14 +136,15 @@
   border: 2px solid #07AA9F;
   color: #07AA9F;
   background-color: #F9F9F9;
-  font-size: 1rem;
+  font-size: 1.2rem;
 }
 .Login label{
   color: #07AA9F;
-  
+  font-weight: bolder;
 }
 
 .Login button{
+  margin-top: 1rem;
   width: 20vmax;
   padding: .7rem;
   background-color: #07AA9F;
@@ -151,6 +152,8 @@
   color: #ffffff;
   border-radius: 1rem;
   cursor: pointer;
+  font-size: larger;
+  font-weight: bolder;
 }
 
 .Cal{

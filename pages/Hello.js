@@ -7,7 +7,7 @@ const Hello = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('http://localhost:4000/english-subjects');
+                const response = await fetch('http://localhost:4000/english_subjects');
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                     console.log(
@@ -41,17 +41,15 @@ const Hello = () => {
                             <tr>
                                 <th>ปีการศึกษา</th>
                                 <th>ภาคเรียนที่</th>
-                                <th>รหัสวิชา</th>
-                                <th>ชื่อวิชา</th>
+                                <th>วิชา</th>
                                 <th>หมายเหตุ</th>
                             </tr>
                         </thead>
                         <tbody>
                             {subjects.map(subject => (
-                                <tr key={subject.en_code}>
+                                <tr key={subject._id}>
                                     <td>{subject.en_year}</td>
                                     <td>{subject.en_semester}</td>
-                                    <td>{subject.en_code}</td>
                                     <td>{subject.en_name}</td>
                                     <td>{subject.en_note}</td>
                                 </tr>
