@@ -1,95 +1,171 @@
-import styles from '@/styles/Home.module.css';
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { FaArrowCircleRight, FaArrowCircleLeft } from 'react-icons/fa';
-import axios from 'axios';
+import styles from "@/styles/Home.module.css";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import axios from "axios";
 
 function Check1() {
   const router = useRouter();
-  const [englishSubjects, setEnglishSubjects] = useState([]);
-  const [file, setFile] = useState(null);
-  const [pdfData, setPdfData] = useState(null);
   const [uploadStatus, setUploadStatus] = useState(null);
-  const [studentCode, setStudentCode] = useState('');
+  const [file1, setFile1] = useState(null);
+  const [file2, setFile2] = useState(null);
+  const [file3, setFile3] = useState(null);
+  const [file4, setFile4] = useState(null);
+  const [file5, setFile5] = useState(null);
+  const [file6, setFile6] = useState(null);
 
-  const handleNextButtonClick = () => {
-    console.log('Next button clicked!');
-    router.push('/component/Upload/check2');
-  };
+  const [students, setStudents] = useState([]);
 
-  const handleBackButtonClick = () => {
-    console.log('Back button clicked!');
-    router.push('/component/Hello');
-  };
-
-  const getPdf = async () => {
-    try {
-      const result = await axios.get("http://localhost:4000/upload");
-      setPdfData(result.data.data);
-    } catch (error) {
-      console.error("Error fetching PDF data: ", error.message);
-    }
-  };
-
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    if (!file || !studentCode) {
-      alert("Please select a file and enter student code.");
-      return;
-    }
-    router.push('./check2');
-
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("studentCode", studentCode);
-
-    try {
-      const result = await axios.post("http://localhost:4000/upload", formData);
-      console.log(result);
-      if (result.data.status === "ok") {
-        alert("Uploaded Successfully!!!");
-        setUploadStatus("success");
-        getPdf();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:4000/students");
+        setStudents(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
       }
+    };
+
+    fetchData();
+  }, []);
+
+  const UploadClick = () => {
+    alert("click");
+    console.log("file1 =", file1);
+    console.log("file2 =", file2);
+    console.log("file3 =", file3);
+    console.log("file4 =", file4);
+    console.log("file5 =", file5);
+    console.log("file6 =", file6);
+    
+    let user=students.map((students, index) => students.username);
+    
+    const formData = new FormData();
+    if (file1 != null) {
+      formData.append("isfile1",true)
+    }
+    if (file2 == null || file3 == null || file4 == null|| file5 == null || file6 == null){
+      alert("Uploaded file ไม่ครบ")
+      return 
+    }
+
+    formData.append("files[]", file1);
+    formData.append("files[]", file2);
+    formData.append("files[]", file3);
+    formData.append("files[]", file4);
+    formData.append("files[]", file5);
+    formData.append("files[]", file6);
+    formData.append("std", user);
+    try {
+      //ถ้าอัพไฟล์ได้
+      const result = axios.post("http://localhost:8000/files", formData);
+      console.log(result);
+      // if (result.data.status === "ok") {
+      alert("Uploaded Successfully!!!");
+      // setUploadStatus("success");
+      // }
     } catch (error) {
       console.error("Error uploading file: ", error.message);
       alert("Error uploading file. Please try again.");
-      setUploadStatus("error");
+      // setUploadStatus("error");
     }
   };
 
   return (
-    <center>
-
-      <form className={styles.Check} onSubmit={onSubmit}>
-        <span onClick={handleBackButtonClick}>
-          <FaArrowCircleLeft />
-        </span>
-        <div style={{ display: 'flex' }}>
-          <h1>1. เอกสารแสดงผลการเรียน </h1>
-        </div>
-
-        <div className={styles.Check1}>
-          <div>
-            <label>รหัสนักศึกษา : </label>
-            <input
-              id="StudentCode"
-              value={studentCode}
-              onChange={(e) => setStudentCode(e.target.value)}
-            />
+    <div>
+      {/* <HeaderBar /> */}
+      <div
+        class="grid grid-cols-1 divide-y border border-gray-200/2"
+        style={{ textAlign: "center", margin: "auto" }}
+      >
+        <div>
+          <div style={{ display: "flex" }}>
+            <h1>1. เอกสารแสดงผลการเรียน </h1>
           </div>
-          <h1>เอกสารแสดงผลการเรียน </h1>
-          <input type="file" name="file" onChange={(e) => setFile(e.target.files[0])}
-          />
-          <input type="submit" value="Upload" />
+          <div className={styles.Check1}>
+            <input
+              type="file"
+              name="file"
+              onChange={(e) => setFile1(e.target.files[0])}
+            />
+            {/* <input type="button" value="Upload" /> */}
+          </div>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-          <span onClick={handleNextButtonClick} style={{ float: 'right' }}>
-            <FaArrowCircleRight />
-          </span>
+
+        <div>
+          <div style={{ display: "flex" }}>
+            <h1>2. หนังสือรับรองผลการฝึกงาน </h1>
+          </div>
+          <div className={styles.Check1}>
+            <input
+              type="file"
+              name="file"
+              onChange={(e) => setFile2(e.target.files[0])}
+            />
+            {/* <input type="button" value="Upload" /> */}
+          </div>
         </div>
-      </form>
-    </center>
+
+        <div>
+          <div style={{ display: "flex" }}>
+            <h1>3. ทดสอบวัดความสามารถภาษาอังกฤษ(KMUTNB-TEPC) </h1>
+          </div>
+          <div className={styles.Check1}>
+            <input
+              type="file"
+              name="file"
+              onChange={(e) => setFile3(e.target.files[0])}
+            />
+            {/* <input type="button" value="Upload" /> */}
+          </div>
+        </div>
+
+        <div>
+          <div style={{ display: "flex" }}>
+            <h1>4. คะแนนภาษาอังกฤษ </h1>
+          </div>
+          <div className={styles.Check1}>
+            <input
+              type="file"
+              name="file"
+              onChange={(e) => setFile4(e.target.files[0])}
+            />
+            {/* <input type="button" value="Upload" /> */}
+          </div>
+        </div>
+
+        <div>
+          <div style={{ display: "flex" }}>
+            <h1>5. ใบประหน้าปริญญานิพนธ์ </h1>
+          </div>
+          <div className={styles.Check1}>
+            <input
+              type="file"
+              name="file"
+              onChange={(e) => setFile5(e.target.files[0])}
+            />
+            {/* <input type="button" value="Upload" /> */}
+          </div>
+        </div>
+
+        <div>
+          <div style={{ display: "flex" }}>
+            <h1>6. ระบบบริการตรวจสอบผู้สำเร็จการศึกษา </h1>
+          </div>
+          <div className={styles.Check1}>
+            <input
+              type="file"
+              name="file"
+              onChange={(e) => setFile6(e.target.files[0])}
+            />
+            {/* <input type="button" value="Upload"  /> */}
+          </div>
+        </div>
+
+        <div>
+          <input type="button" value="Upload" onClick={UploadClick} />
+        </div>
+      </div>
+    </div>
   );
 }
 
