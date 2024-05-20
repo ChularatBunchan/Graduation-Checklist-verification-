@@ -1,7 +1,10 @@
-import re
 from pdfminer.high_level import extract_text
+from flask import Flask, request , jsonify
 from pymongo import MongoClient
 import os
+import re
+
+app = Flask(__name__)
 
 def get_data_from_mongodb(database_name, collection_name):
     try:
@@ -71,7 +74,15 @@ def check_all_files(directory, student_id):
         if file.endswith('.pdf'):
             check(os.path.join(directory, file), student_id)
 
-mongodb_data_stu = get_data_from_mongodb('test', 'files')
-data_to_search_stu = mongodb_data_stu.get('st_id')
+mongodb_data_stu = get_data_from_mongodb('test', 'students')
+st_id = mongodb_data_stu.get('st_id')
 
-check_all_files("./file", data_to_search_stu)
+@app.route('check_files', methods=['POST'])
+def check_files():
+    request_data = request.json
+    check_all_files("./file", request_data.get(st_id))
+    return jsonify({"result": "Prcessed successfully"})
+
+if __name__ == '__main__':
+    app.run(debug=True)
+

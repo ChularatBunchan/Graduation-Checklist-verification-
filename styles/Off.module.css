@@ -37,7 +37,108 @@
  font-size: large;
 }
 
-.Basic table{
-  float: left;
-  margin-bottom: 2rem;
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
+.hidePopup {
+  display: none;
+}
+
+.popupContent {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  font-size: medium;
+  font-weight: bolder;
+}
+
+.popupContent input{
+  display: block;
+  width: 15vmax;
+  padding: .7rem;
+  margin: 1rem;
+  border-radius: 1rem;
+  border: 2px solid #07AA9F;
+  color: #07AA9F;
+  background-color: #F9F9F9;
+  font-size: 1.2rem;
+}
+
+.popupContent label{
+  color: #07AA9F;
+  font-weight: bolder;
+}
+
+.popupContent button {
+  margin-top: 1rem;
+  width: 15vmax;
+  padding: .7rem;
+  background-color: #07AA9F;
+  border: none;
+  color: #ffffff;
+  border-radius: 1rem;
+  cursor: pointer;
+  font-size: larger;
+}
+
+.AddSub h1{
+  padding: 1rem;
+  justify-content: center;
+  display: flex;
+}
+
+.AddSub {
+  display: block;
+  justify-content: center;
+  margin: 3vmax;
+}
+
+.EditSub {
+  display: "flex";
+  margin: "2rem";
+  justify-content: center;
+}
+
+.EditSub Button {
+  background-color: #07AA9F;
+  color: #ffffff;
+}
+
+.EditSub Button:hover {
+  background-color: #e7e4e4;
+  color: #000000;
+}
+
+.EditSub #DeleteButton {
+  background-color: #EB6725;
+}
+
+#DeleteButton:hover {
+  background-color: #e7e4e4;
+  color: #000000;
+}
+
+.PopUp TextField:active {
+  color: #07AA9F;
+}
+
+.PopUp Button {
+  color: #ffffff;
+}
+
+.PopUp Button:hover {
+  background-color: #e7e4e4;
+  color: #000000;
+}
+

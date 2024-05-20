@@ -52,6 +52,7 @@
   height: 100%;
   width: 100%;
   overflow-y: auto;
+  /* color: #EB6725; */
 }
 
 .menuitem li{

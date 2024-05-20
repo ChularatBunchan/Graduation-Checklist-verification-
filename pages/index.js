@@ -20,8 +20,8 @@ const Home = () => {
       </Head>
 
       <main className={`${styles.main}`}>
-        <Hello />
-        {/* <Login /> */}
+        {/* <Hello /> */}
+        <Login />
         {/* <AddSub /> */}
         {/* <OffCheck /> */}
       </main>

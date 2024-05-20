@@ -241,7 +241,8 @@
   background-color: #ffffff;
   border-radius: 1rem;
   box-shadow: 5px 5px 60px #f1a27a;
-  height: fit-content;
+  height:max-content;
+  padding: 2rem;
   color: #07AA9F;
 }
 
@@ -263,6 +264,17 @@
 }
 
 .Check1 button{
+  width: 20vmax;
+  padding: .7rem;
+  background-color: #07AA9F;
+  border: none;
+  color: #ffffff;
+  border-radius: 1rem;
+  cursor: pointer;
+}
+
+.button button{
+  margin-top: 1vmax;
   width: 20vmax;
   padding: .7rem;
   background-color: #07AA9F;

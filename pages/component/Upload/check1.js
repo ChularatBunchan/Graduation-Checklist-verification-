@@ -28,24 +28,23 @@ function Check1() {
     fetchData();
   }, []);
 
-  const UploadClick = () => {
-    alert("click");
+  const UploadClick = async () => {
     console.log("file1 =", file1);
     console.log("file2 =", file2);
     console.log("file3 =", file3);
     console.log("file4 =", file4);
     console.log("file5 =", file5);
     console.log("file6 =", file6);
-    
-    let user=students.map((students, index) => students.username);
-    
+
+    let user = students.map((students, index) => students.username);
+
     const formData = new FormData();
     if (file1 != null) {
-      formData.append("isfile1",true)
+      formData.append("isfile1", true)
     }
-    if (file2 == null || file3 == null || file4 == null|| file5 == null || file6 == null){
+    if (file2 == null || file3 == null || file4 == null || file5 == null || file6 == null) {
       alert("Uploaded file ไม่ครบ")
-      return 
+      return
     }
 
     formData.append("files[]", file1);
@@ -57,28 +56,32 @@ function Check1() {
     formData.append("std", user);
     try {
       //ถ้าอัพไฟล์ได้
-      const result = axios.post("http://localhost:8000/files", formData);
+      const result = axios.post("http://localhost:4000/files", formData);
       console.log(result);
       // if (result.data.status === "ok") {
       alert("Uploaded Successfully!!!");
-      // setUploadStatus("success");
-      // }
+      setUploadStatus("success");
+      await axios.post('http://localhost:4000/check_files', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      router.reload()
+
     } catch (error) {
       console.error("Error uploading file: ", error.message);
       alert("Error uploading file. Please try again.");
-      // setUploadStatus("error");
+      setUploadStatus("error");
     }
   };
 
   return (
-    <div>
-      {/* <HeaderBar /> */}
-      <div
+    <div className={styles.Check}>
+      <center
         class="grid grid-cols-1 divide-y border border-gray-200/2"
-        style={{ textAlign: "center", margin: "auto" }}
       >
         <div>
-          <div style={{ display: "flex" }}>
+          <div>
             <h1>1. เอกสารแสดงผลการเรียน </h1>
           </div>
           <div className={styles.Check1}>
@@ -87,12 +90,11 @@ function Check1() {
               name="file"
               onChange={(e) => setFile1(e.target.files[0])}
             />
-            {/* <input type="button" value="Upload" /> */}
           </div>
         </div>
 
         <div>
-          <div style={{ display: "flex" }}>
+          <div>
             <h1>2. หนังสือรับรองผลการฝึกงาน </h1>
           </div>
           <div className={styles.Check1}>
@@ -101,12 +103,11 @@ function Check1() {
               name="file"
               onChange={(e) => setFile2(e.target.files[0])}
             />
-            {/* <input type="button" value="Upload" /> */}
           </div>
         </div>
 
         <div>
-          <div style={{ display: "flex" }}>
+          <div>
             <h1>3. ทดสอบวัดความสามารถภาษาอังกฤษ(KMUTNB-TEPC) </h1>
           </div>
           <div className={styles.Check1}>
@@ -115,12 +116,11 @@ function Check1() {
               name="file"
               onChange={(e) => setFile3(e.target.files[0])}
             />
-            {/* <input type="button" value="Upload" /> */}
           </div>
         </div>
 
         <div>
-          <div style={{ display: "flex" }}>
+          <div>
             <h1>4. คะแนนภาษาอังกฤษ </h1>
           </div>
           <div className={styles.Check1}>
@@ -129,12 +129,11 @@ function Check1() {
               name="file"
               onChange={(e) => setFile4(e.target.files[0])}
             />
-            {/* <input type="button" value="Upload" /> */}
           </div>
         </div>
 
         <div>
-          <div style={{ display: "flex" }}>
+          <div>
             <h1>5. ใบประหน้าปริญญานิพนธ์ </h1>
           </div>
           <div className={styles.Check1}>
@@ -143,12 +142,11 @@ function Check1() {
               name="file"
               onChange={(e) => setFile5(e.target.files[0])}
             />
-            {/* <input type="button" value="Upload" /> */}
           </div>
         </div>
 
         <div>
-          <div style={{ display: "flex" }}>
+          <div>
             <h1>6. ระบบบริการตรวจสอบผู้สำเร็จการศึกษา </h1>
           </div>
           <div className={styles.Check1}>
@@ -157,14 +155,14 @@ function Check1() {
               name="file"
               onChange={(e) => setFile6(e.target.files[0])}
             />
-            {/* <input type="button" value="Upload"  /> */}
           </div>
         </div>
 
-        <div>
-          <input type="button" value="Upload" onClick={UploadClick} />
+        <div className={styles.button}>
+          <button onClick={UploadClick}>Upload</button>
+          {uploadStatus && <div>{uploadStatus}</div>}
         </div>
-      </div>
+      </center>
     </div>
   );
 }
