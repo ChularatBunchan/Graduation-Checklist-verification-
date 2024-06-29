@@ -1,34 +1,57 @@
-const fs = require("fs");
 const express = require("express");
 const mongoose = require("mongoose");
 const multer = require("multer");
 const cors = require("cors");
+const fs = require("fs");
 
 const app = express();
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-  })
-);
 
+app.use(cors({
+  origin: "http://localhost:3000",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true,
+}));
+
+app.use(express.json());
 app.use("/file", express.static("/file"));
 
 const mongoUrl = "mongodb+srv://admin:1234@cluster0.o78uko5.mongodb.net/";
 
 mongoose
-  .connect(mongoUrl, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(mongoUrl)
   .then(() => {
-    console.log("Connect to MongoDB");
+    console.log("Connected to MongoDB");
   })
-  .catch((e) => console.log(e));
+  .catch((e) => console.log("Error connecting to MongoDB:", e));
 
 app.use(express.json());
 app.use(cors());
 
 // -----------------------------------------------------------------
+///////////////////////////////////////////////////////////////////////////Login
+// const userSchema = new mongoose.Schema({
+//   username: String,
+//   password: String, // ในจริง ๆ ควรเข้ารหัสรหัสผ่าน
+//   displayname: String,
+//   email: String,
+//   account_type: String,
+// });
+
+// const User = mongoose.model("User", userSchema);
+
+// app.post("/auth/login", async (req, res) => {
+//   try {
+//     const { username, password } = req.body;
+//     const user = await User.findOne({ username, password }); // ตรวจสอบว่ามีผู้ใช้ในระบบ
+//     if (!user) {
+//       return res.status(401).json({ error: "Invalid username or password" });
+//     }
+//     res.json({ userInfo: user });
+//   } catch (error) {
+//     console.error("Error logging in:", error);
+//     res.status(500).send("Internal Server Error");
+//   }
+// });
 
 const subjectSchema = new mongoose.Schema({
   en_name: String,
@@ -180,6 +203,8 @@ app.get("/", async (req, res) => {
   res.send("Success yahhhhhh");
 });
 
-app.listen(4000, () => {
-  console.log("server is running port 4000");
+app.listen(6000, () => {
+  console.log("server is running port 6000");
 });
+
+//------------------------------------------------------------------
