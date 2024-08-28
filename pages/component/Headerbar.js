@@ -37,6 +37,10 @@ const HeaderBar = () => {
     router.push("/Profile");
   };
 
+  const handleClickHome = () => {
+    router.push("/Hello");
+  };
+
   const getCookieValue = (cookies, name) => {
     return cookies[name];
   };
@@ -46,7 +50,7 @@ const HeaderBar = () => {
     try {
       const username = getCookieValue(cookies, "username");
       console.log(username);
-      await axios.delete("http://localhost:4000/students/" + username);
+      await axios.delete("http://localhost:5000/students/" + username);
       Cookies.remove("username");
       setIsSidebarOpen(false);
       router.replace("/"); //ใส่พาทล้อกอิน
@@ -64,8 +68,9 @@ const HeaderBar = () => {
           >
             <AiOutlineMenu size={25} />
           </span>
-          <img src="/kmutnb.jpg" alt="Logo" />
-          <p>ระบบตรวจสอบการจบการศึกษาโครงการพิเศษสองภาษา</p>
+          <div onClink={handleClickHome}><img src="/kmutnb.jpg" alt="Logo"  /></div>
+          <p onClink={handleClickHome} >ระบบตรวจสอบการจบการศึกษาโครงการพิเศษสองภาษา</p>
+          
         </div>
         <div className={`${styles.right_content}`}>
           <div className={`${styles.profile}`} onClick={handleClickProfile}>

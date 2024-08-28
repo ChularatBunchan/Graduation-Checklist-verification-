@@ -177,10 +177,9 @@ app.get("/files", async (req, res) => {
 // Create a schema for English subjects
 const studentsSchema = new mongoose.Schema({
   st_id: String,
-  st_firstname: String,
-  st_lastname: String,
+  st_name: String,
   st_email: String,
-  st_phone: String,
+  st_account_type: String,
 });
 
 // Create a model
@@ -197,14 +196,26 @@ app.get("/students", async (req, res) => {
   }
 });
 
+app.post("/students", async (req, res) => {
+  try {
+    const { st_id, st_name, st_email, st_account_type } = req.body;
+    const subject = new Subject({ st_id, st_name, st_email, st_account_type });
+    await subject.save();
+    res.status(201).json(subject);
+  } catch (err) {
+    console.error("Error adding subject:", err);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 // -----------------------------------------------------------------
 
 app.get("/", async (req, res) => {
   res.send("Success yahhhhhh");
 });
 
-app.listen(6000, () => {
-  console.log("server is running port 6000");
+app.listen(4000, () => {
+  console.log("server is running port 4000");
 });
 
 //------------------------------------------------------------------

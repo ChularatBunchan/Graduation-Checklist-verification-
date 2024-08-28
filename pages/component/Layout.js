@@ -7,7 +7,7 @@ import HeaderBarOff from '../Officer/HeaderbarOff';
 
 const Layout = ({ children, loggedIn, onLogin, onLogout }) => {
   return (
-    <div>
+    <>
       {/* {loggedIn ? (
         <HeaderBar onLogout={onLogout} onLogin={onLogin} />
       ) : (
@@ -21,7 +21,7 @@ const Layout = ({ children, loggedIn, onLogin, onLogout }) => {
         <h4><FaLocationDot /> ภาควิชาวิทยาการคอมพิวเตอร์และสารสนเทศ มจพ. กรุงเทพฯ</h4>
         <h4><FaPhone /> 02-555-2000 ต่อ 4601, 4602</h4>
       </footer>
-    </div>
+    </>
   );
 };
 

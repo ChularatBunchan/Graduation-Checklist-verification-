@@ -58,7 +58,7 @@ const Hello = () => {
         <center>
             <img src='/bannercsb.gif' alt="Example GIF" className={styles.gif} />
             <div className={styles.content}>
-                <Paper className={stylesHeader.content}>
+                <Paper >
                     <div className={styles.EditSub}>
                         <div style={{ color: "#07AA9F", marginTop: "3vmax" }}>
                             <Typography variant="h4">รายวิชาภาษาอังกฤษ</Typography>

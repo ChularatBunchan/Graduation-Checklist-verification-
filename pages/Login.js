@@ -4,7 +4,7 @@ import Link from "next/link";
 import styles from "@/styles/Home.module.css";
 import { Button } from "@material-tailwind/react";
 import axios from "axios";
-import { setCookie } from 'nookies';
+import { setCookie } from "nookies";
 
 const Login = () => {
   const router = useRouter();
@@ -15,24 +15,36 @@ const Login = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:4000/auth/login", {
-        username,
-        password,
-      });
+      const response = await axios
+        .post("http://localhost:5000/auth/login", {
+          username,
+          password,
+        })
+        if (response && response.data) {
+          const { api_status, api_status_code, api_message, userInfo } = response.data;
+
+          if (api_status === 'success') {
+              console.log('Login successful:', userInfo);
+              // ทำการดำเนินการต่อไปที่ต้องการ เช่น นำข้อมูล userInfo มาใช้งาน
+          } else {
+              console.error('Login failed:', api_message);
+          }
+      }
+
       let playload = {
         username: response.data.userInfo.username,
         displayname: response.data.userInfo.displayname,
         email: response.data.userInfo.email,
         account_type: response.data.userInfo.account_type,
       };
-      const res = await axios.post("http://localhost:4000/students", playload);
+      const res = await axios.post("http://localhost:5000/students", playload);
       //console.log("student:", res.data);
       //console.log("student:", res.data.username);
       router.push("/Hello");
 
       setCookie(null, "username", res.data.username, {
-        maxAge: 30 * 24 * 60 * 60, 
-        path: "/", 
+        maxAge: 30 * 24 * 60 * 60,
+        path: "/",
       });
       //   if (response.data.userInfo.account_type=="student")
       //   {
@@ -51,7 +63,7 @@ const Login = () => {
   return (
     <center>
       <div className={`${styles.Login}`}>
-        <form onSubmit={onSubmit}>
+        <form>
           <label>ICIT Account</label>
           <br />
           <input
@@ -67,11 +79,15 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <br />
-          <Link href="https://account.kmutnb.ac.th/web/recovery/index" target="_blank" style={{color:"#EB6725", fontWeight:"bold"}}>
-          Forgot ICIT Account Password
+          <Link
+            href="https://account.kmutnb.ac.th/web/recovery/index"
+            target="_blank"
+            style={{ color: "#EB6725", fontWeight: "bold" }}
+          >
+            Forgot ICIT Account Password
           </Link>{" "}
           <br />
-          <Button type="submit">Sign in</Button>
+          <button onClick={onSubmit} >Sign in</button>
           {error && <p>{error}</p>}
         </form>
       </div>

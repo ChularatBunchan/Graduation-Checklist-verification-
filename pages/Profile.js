@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'; // Import Axios
+import axios from 'axios';
 import styles from '@/styles/Headerbar.module.css';
 
 const Profile = () => {
@@ -24,7 +24,7 @@ const Profile = () => {
             <div className={`${styles.content}`}>
                 {students.map((students, index) => (
                     <div key={index}>
-                        <p>รหัสนักศึกษา: {students.username}</p>
+                        <p>รหัสนักศึกษา: {students.username.slice(1)}</p>
                         <p>ชื่อ: {students.displayname} </p>
                         <p>Email: {students.email}</p>
                     </div>
