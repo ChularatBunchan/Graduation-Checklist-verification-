@@ -24,9 +24,10 @@ const Profile = () => {
             <div className={`${styles.content}`}>
                 {students.map((students, index) => (
                     <div key={index}>
-                        <p>รหัสนักศึกษา: {students.username.slice(1)}</p>
-                        <p>ชื่อ: {students.displayname} </p>
-                        <p>Email: {students.email}</p>
+                        <p>รหัสนักศึกษา: {students.st_id.slice(1)}</p>
+                        <p>ชื่อ: {students.st_name} </p>
+                        <p>Name: {students.st_firstname_en}  {students.st_lastname_en}</p>
+                        <p>Email: {students.st_email}</p>
                     </div>
                 ))}
             </div>

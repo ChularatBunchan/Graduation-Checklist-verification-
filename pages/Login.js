@@ -2,11 +2,9 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import styles from "@/styles/Home.module.css";
-import { Button } from "@material-tailwind/react";
 import axios from "axios";
-import { setCookie } from "nookies";
 
-const Login = () => {
+const Login = ({ onLogin }) => {  // Accept onLogin as a prop
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -15,45 +13,37 @@ const Login = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios
-        .post("http://localhost:5000/auth/login", {
-          username,
-          password,
-        })
-        if (response && response.data) {
-          const { api_status, api_status_code, api_message, userInfo } = response.data;
-
-          if (api_status === 'success') {
-              console.log('Login successful:', userInfo);
-              // ทำการดำเนินการต่อไปที่ต้องการ เช่น นำข้อมูล userInfo มาใช้งาน
-          } else {
-              console.error('Login failed:', api_message);
-          }
-      }
-
-      let playload = {
-        username: response.data.userInfo.username,
-        displayname: response.data.userInfo.displayname,
-        email: response.data.userInfo.email,
-        account_type: response.data.userInfo.account_type,
-      };
-      const res = await axios.post("http://localhost:5000/students", playload);
-      //console.log("student:", res.data);
-      //console.log("student:", res.data.username);
-      router.push("/Hello");
-
-      setCookie(null, "username", res.data.username, {
-        maxAge: 30 * 24 * 60 * 60,
-        path: "/",
+      const response = await axios.post("http://localhost:4000/auth/login", {
+        username,
+        password,
       });
-      //   if (response.data.userInfo.account_type=="student")
-      //   {
-      //     router.push("/Hello");
-      //   }
-      //   else if (response.data.userInfo.account_type=="personel")
-      //   {
-      //     router.push("/AddSub");
-      //   }
+
+      if (response && response.data) {
+        const { api_status, api_message, userInfo } = response.data;
+
+        if (api_status === "success") {
+          console.log("Login successful:", userInfo);
+
+          const payload = {
+            st_id: userInfo.username,
+            st_name: userInfo.displayname,
+            st_firstname_en: userInfo.firstname_en,
+            st_lastname_en: userInfo.lastname_en,
+            st_email: userInfo.email,
+            st_account_type: userInfo.account_type,
+            st_status: true, // Assuming status is true when login is successful
+          };
+
+          await axios.post("http://localhost:4000/students", payload);
+
+          // Notify the parent component of login and pass account type
+          onLogin(true, userInfo.account_type);  // Call onLogin with parameters
+
+          router.push("/Hello");
+        } else {
+          setError(api_message);
+        }
+      }
     } catch (error) {
       console.error("Error logging in:", error);
       setError("Invalid username or password");
@@ -62,8 +52,8 @@ const Login = () => {
 
   return (
     <center>
-      <div className={`${styles.Login}`}>
-        <form>
+      <div className={styles.Login}>
+        <form onSubmit={onSubmit}>
           <label>ICIT Account</label>
           <br />
           <input
@@ -85,9 +75,9 @@ const Login = () => {
             style={{ color: "#EB6725", fontWeight: "bold" }}
           >
             Forgot ICIT Account Password
-          </Link>{" "}
+          </Link>
           <br />
-          <button onClick={onSubmit} >Sign in</button>
+          <button type="submit">Sign in</button>
           {error && <p>{error}</p>}
         </form>
       </div>

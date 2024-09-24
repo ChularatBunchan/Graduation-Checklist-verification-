@@ -6,12 +6,7 @@ import axios from "axios";
 function Check1() {
   const router = useRouter();
   const [uploadStatus, setUploadStatus] = useState(null);
-  const [file1, setFile1] = useState(null);
-  const [file2, setFile2] = useState(null);
-  const [file3, setFile3] = useState(null);
-  const [file4, setFile4] = useState(null);
-  const [file5, setFile5] = useState(null);
-  const [file6, setFile6] = useState(null);
+  const [files, setFiles] = useState(Array(6).fill(null)); // Use an array to manage file inputs
   const [students, setStudents] = useState([]);
 
   useEffect(() => {
@@ -27,42 +22,34 @@ function Check1() {
     fetchData();
   }, []);
 
-  const UploadClick = async () => {
-    console.log("file1 =", file1);
-    console.log("file2 =", file2);
-    console.log("file3 =", file3);
-    console.log("file4 =", file4);
-    console.log("file5 =", file5);
-    console.log("file6 =", file6);
+  const handleFileChange = (index) => (e) => {
+    const newFiles = [...files];
+    newFiles[index] = e.target.files[0];
+    setFiles(newFiles);
+  };
 
-    let user = students.map((students, index) => students.st_id);
+  const UploadClick = async () => {
+    const user = students.map((student) => student.st_id);
+    const name = students.map((student) => student.st_name);
 
     const formData = new FormData();
-    if (file1 != null) {
-      formData.append("files[]", file1);
-    }
-    if (file2 == null || file3 == null || file4 == null || file5 == null || file6 == null) {
-      alert("Uploaded file ไม่ครบ");
-      return;
-    }
+    files.forEach((file, index) => {
+      if (file) {
+        formData.append(`files[]`, file);
+      } else {
+        alert(`Uploaded file ${index + 1} ไม่ครบ`);
+        return;
+      }
+    });
 
-    formData.append("files[]", file2);
-    formData.append("files[]", file3);
-    formData.append("files[]", file4);
-    formData.append("files[]", file5);
-    formData.append("files[]", file6);
-    formData.append("std", user);
+    formData.append("std", user[0]); // Assuming single user
+    formData.append("stdName", name[0]); // Assuming single user
 
     try {
-      const result = await axios.post("http://localhost:4000/files", formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
-      console.log(result);
-      alert("Uploaded Successfully!!!");
+      const result = await axios.post("http://localhost:4000/files", formData);
       setUploadStatus("success");
-      router.reload();
+      alert("Uploaded Successfully!!!");
+      await handleFileUpload(user[0]);
     } catch (error) {
       console.error("Error uploading file: ", error.message);
       alert("Error uploading file. Please try again.");
@@ -70,87 +57,27 @@ function Check1() {
     }
   };
 
+  const handleFileUpload = async (fi_id) => {
+    try {
+      await axios.patch(`http://localhost:4000/files/${fi_id}`, {
+        fi_status: "ยังไม่ได้ตรวจสอบ",
+      });
+    } catch (error) {
+      console.error("Error updating file status:", error);
+    }
+  };
+
   return (
     <div className={styles.Check}>
-      <center className="grid grid-cols-1 divide-y border border-gray-200/2">
-        <div>
-          <div>
-            <h1>1. เอกสารแสดงผลการเรียน </h1>
+      <center>
+        {["เอกสารแสดงผลการเรียน", "หนังสือรับรองผลการฝึกงาน", "ทดสอบวัดความสามารถภาษาอังกฤษ(KMUTNB-TEPC)", "คะแนนภาษาอังกฤษ", "ใบประหน้าปริญญานิพนธ์", "ระบบบริการตรวจสอบผู้สำเร็จการศึกษา"].map((title, index) => (
+          <div key={index}>
+            <h1>{index + 1}. {title}</h1>
+            <div className={styles.Check1}>
+              <input type="file" onChange={handleFileChange(index)} />
+            </div>
           </div>
-          <div className={styles.Check1}>
-            <input
-              type="file"
-              name="file"
-              onChange={(e) => setFile1(e.target.files[0])}
-            />
-          </div>
-        </div>
-
-        <div>
-          <div>
-            <h1>2. หนังสือรับรองผลการฝึกงาน </h1>
-          </div>
-          <div className={styles.Check1}>
-            <input
-              type="file"
-              name="file"
-              onChange={(e) => setFile2(e.target.files[0])}
-            />
-          </div>
-        </div>
-
-        <div>
-          <div>
-            <h1>3. ทดสอบวัดความสามารถภาษาอังกฤษ(KMUTNB-TEPC) </h1>
-          </div>
-          <div className={styles.Check1}>
-            <input
-              type="file"
-              name="file"
-              onChange={(e) => setFile3(e.target.files[0])}
-            />
-          </div>
-        </div>
-
-        <div>
-          <div>
-            <h1>4. คะแนนภาษาอังกฤษ </h1>
-          </div>
-          <div className={styles.Check1}>
-            <input
-              type="file"
-              name="file"
-              onChange={(e) => setFile4(e.target.files[0])}
-            />
-          </div>
-        </div>
-
-        <div>
-          <div>
-            <h1>5. ใบประหน้าปริญญานิพนธ์ </h1>
-          </div>
-          <div className={styles.Check1}>
-            <input
-              type="file"
-              name="file"
-              onChange={(e) => setFile5(e.target.files[0])}
-            />
-          </div>
-        </div>
-
-        <div>
-          <div>
-            <h1>6. ระบบบริการตรวจสอบผู้สำเร็จการศึกษา </h1>
-          </div>
-          <div className={styles.Check1}>
-            <input
-              type="file"
-              name="file"
-              onChange={(e) => setFile6(e.target.files[0])}
-            />
-          </div>
-        </div>
-
+        ))}
         <div className={styles.button}>
           <button onClick={UploadClick}>Upload</button>
           {uploadStatus && <div>{uploadStatus}</div>}

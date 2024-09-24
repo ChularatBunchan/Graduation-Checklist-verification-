@@ -8,14 +8,13 @@ import { CiCalculator2 } from "react-icons/ci";
 import { FiLogOut } from "react-icons/fi";
 import { IoPersonOutline } from "react-icons/io5";
 import { AiOutlineMenu } from "react-icons/ai";
-import Check from "../Check";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { parseCookies } from "nookies";
 
 const HeaderBar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isProfilePopupVisible, setIsProfilePopupVisible] = useState(false); // เพิ่ม state นี้
+  const [isProfilePopupVisible, setIsProfilePopupVisible] = useState(false); // Add this state
 
   const router = useRouter();
 
@@ -24,13 +23,7 @@ const HeaderBar = () => {
   };
 
   const handleLinkClick = () => {
-    // if(Checkcookie){
-    //ถ้าเจอคุกกี้เข้ามาทำงานที่
     setIsSidebarOpen(false);
-    // }
-    // else{
-    //   router.replace('/Login');
-    // }
   };
 
   const handleClickProfile = () => {
@@ -45,19 +38,29 @@ const HeaderBar = () => {
     return cookies[name];
   };
 
-  const handleClicklogout = async () => {
+  const handleClickLogout = async () => {
     const cookies = parseCookies();
+    const username = getCookieValue(cookies, "username");
+  
+    console.log("Cookies:", cookies);
+    console.log("Username from cookie:", username);
+  
+    if (!username) {
+      console.error("No username found in cookies");
+      return;
+    }
+  
     try {
-      const username = getCookieValue(cookies, "username");
-      console.log(username);
-      await axios.delete("http://localhost:5000/students/" + username);
+      await axios.delete(`http://localhost:4000/students/${username}`);
       Cookies.remove("username");
       setIsSidebarOpen(false);
-      router.replace("/"); //ใส่พาทล้อกอิน
+      router.push("/Login");
     } catch (error) {
-      console.log(error);
+      console.error("Logout error:", error);
     }
   };
+  
+
   return (
     <div>
       <div className={`${styles.headerbar}`}>
@@ -68,9 +71,12 @@ const HeaderBar = () => {
           >
             <AiOutlineMenu size={25} />
           </span>
-          <div onClink={handleClickHome}><img src="/kmutnb.jpg" alt="Logo"  /></div>
-          <p onClink={handleClickHome} >ระบบตรวจสอบการจบการศึกษาโครงการพิเศษสองภาษา</p>
-          
+          <div onClick={handleClickHome}>
+            <img src="/kmutnb.jpg" alt="Logo" />
+          </div>
+          <p onClick={handleClickHome}>
+            ระบบตรวจสอบการจบการศึกษาโครงการพิเศษสองภาษา
+          </p>
         </div>
         <div className={`${styles.right_content}`}>
           <div className={`${styles.profile}`} onClick={handleClickProfile}>
@@ -88,19 +94,6 @@ const HeaderBar = () => {
       >
         <div className={`${styles.menucontent}`}>
           <ul className={`${styles.menuitem}`}>
-            <li>
-              <Link
-                href="/Profile"
-                className={`${styles.item}`}
-                onClick={handleLinkClick}
-              >
-                <IoPersonOutline
-                  size={23}
-                  className={`${styles.sidebaricon}`}
-                />
-                <span className={`${styles.sidebartext}`}>ข้อมูลส่วนตัว</span>
-              </Link>
-            </li>
             <li>
               <Link
                 href="/Check"
@@ -125,14 +118,11 @@ const HeaderBar = () => {
             </li>
             <li>
               <Link
-                href="/StatusCheck"
+                href="/CheckStatus"
                 className={`${styles.item}`}
                 onClick={handleLinkClick}
               >
-                <FaRegCheckCircle
-                  size={23}
-                  className={`${styles.sidebaricon}`}
-                />
+                <FaRegCheckCircle size={23} className={`${styles.sidebaricon}`} />
                 <span className={`${styles.sidebartext}`}>
                   ตรวจสอบสถานะการจบการศึกษา
                 </span>
@@ -140,9 +130,9 @@ const HeaderBar = () => {
             </li>
             <li>
               <Link
-                href=""
+                href="#"
                 className={`${styles.item}`}
-                onClick={handleClicklogout}
+                onClick={handleClickLogout}
               >
                 <FiLogOut size={23} className={`${styles.sidebaricon}`} />
                 <span className={`${styles.sidebartext}`}>ออกจากระบบ</span>
@@ -154,4 +144,5 @@ const HeaderBar = () => {
     </div>
   );
 };
+
 export default HeaderBar;

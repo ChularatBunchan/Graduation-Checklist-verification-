@@ -2,28 +2,31 @@ import { useState } from 'react';
 import '@/styles/globals.css';
 import Layout from './component/Layout';
 import { useRouter } from 'next/router';
+import Login from './Login';
 
 export default function App({ Component, pageProps }) {
-  const [loggedIn, setLoggedIn] = useState(false); // State to manage login status
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [accountType, setAccountType] = useState('');
   const router = useRouter();
 
-  // Function to handle logout
-  const handleLogout = () => {
-    // Perform logout actions here (e.g., clearing local storage, resetting state)
-    setLoggedIn(false);
-    router.push('/Login'); // Redirect to login page after logout
+  // Correctly define the handleLogin function
+  const handleLogin = (status, type) => {
+    setLoggedIn(status);
+    setAccountType(type);
+    router.push('/Hello');
   };
 
-  // Function to handle login
-  const handleLogin = () => {
-    // Perform login actions here (e.g., setting local storage, updating state)
-    setLoggedIn(true);
-    router.push('/Hello'); // Redirect to profile page after login
+  const handleLogout = () => {
+    setLoggedIn(false);
+    setAccountType('');
+    router.push('/Login');
   };
 
   return (
-    <Layout loggedIn={loggedIn} onLogin={handleLogin} onLogout={handleLogout}>
+    <Layout>
+    {/* <Layout loggedIn={loggedIn} accountType={accountType} onLogin={handleLogin} onLogout={handleLogout}> */}
       <Component {...pageProps} />
+      {/* {loggedIn ? <Component {...pageProps} /> : <Login onLogin={handleLogin} />} */}
     </Layout>
   );
 }
