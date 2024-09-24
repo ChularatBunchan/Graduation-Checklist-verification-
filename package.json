@@ -40,5 +40,6 @@
   "devDependencies": {
     "autoprefixer": "^10.4.17",
     "daisyui": "^4.6.3"
-  }
+  },
+  "proxy": "http://localhost:4000"
 }
