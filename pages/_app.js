@@ -13,20 +13,29 @@ export default function App({ Component, pageProps }) {
   const handleLogin = (status, type) => {
     setLoggedIn(status);
     setAccountType(type);
-    router.push('/Hello');
+    localStorage.setItem('loggedIn', status);
+    localStorage.setItem('accountType', type);
+    if (accountType === 'students') {
+      router.push('/Hello'); 
+    }
+    else if (accountType === 'personel'){
+      router.push('/HelloStaffs');
+    }
   };
 
   const handleLogout = () => {
     setLoggedIn(false);
     setAccountType('');
+    localStorage.removeItem('loggedIn');
+    localStorage.removeItem('accountType');
     router.push('/Login');
   };
 
   return (
-    <Layout>
-    {/* <Layout loggedIn={loggedIn} accountType={accountType} onLogin={handleLogin} onLogout={handleLogout}> */}
-      <Component {...pageProps} />
-      {/* {loggedIn ? <Component {...pageProps} /> : <Login onLogin={handleLogin} />} */}
+    // <Layout>
+    <Layout loggedIn={loggedIn} accountType={accountType} onLogin={handleLogin} onLogout={handleLogout}>
+      {/* <Component {...pageProps} /> */}
+      {loggedIn ? <Component {...pageProps} /> : <Login onLogin={handleLogin} />}
     </Layout>
   );
 }

@@ -3,24 +3,25 @@
 }
 
 .footer {
-  border-radius: 1rem ;
+  border-radius: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: .85rem;
   gap: 20px;
-  /* position: fixed;  */
-   /* width: 100%; */
+  width: auto; /* กำหนดความกว้างตามขนาดหน้าจอ */
   background-color: #07AA9F;
   padding: 1rem 2rem;
-  padding-right: 2rem; /*เพิ่มคุณสมบัติ padding-right */
-  bottom: 0;
-  border-radius: 1rem;
+  /* padding-right: 2rem; */
   color: #ffffff;
+  bottom: 0;
+  left: 0; /* แน่ใจว่า footer เริ่มจากด้านซ้ายสุด */
 }
+
 
 .Mainn {
   margin-bottom: 10rem;
+  min-height: calc(100vh - 60px); 
 }
 
 .description {
@@ -174,7 +175,6 @@
   background-color: #EB6725;
   border-radius: 1rem;
   border-spacing: 5px 1rem;
-  justify-content: center;
 }
 .CalBox2 {
   margin: 1%;
@@ -203,6 +203,7 @@
   display: flex;
   color: #ffffff;
   justify-content: space-around;
+  width: 70%;
 
 }
 .CalBox0 {
@@ -273,6 +274,20 @@
   cursor: pointer;
 }
 
+
+/* 
+Button:hover {
+  background-color: #0056b3;
+} */
+
+.container {
+  background-color: #f2f2f2;
+  border: 2px solid orange;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
 .button button{
   margin-top: 1vmax;
   width: 20vmax;
@@ -282,6 +297,7 @@
   color: #ffffff;
   border-radius: 1rem;
   cursor: pointer;
+  font-size: large;
 }
 
 .select{
@@ -441,3 +457,6 @@
     transform: rotate(0deg);
   }
 }
+
+
+
