@@ -9,6 +9,7 @@ import {
     Paper,
     Typography,
     Pagination,
+    LinearProgress,
     TextField,
     Button
 } from '@mui/material';
@@ -22,12 +23,12 @@ const HelloStaffs = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(true);
     const [searchYear, setSearchYear] = useState('');
+    const [sortDirection, setSortDirection] = useState('desc');
     const subjectsPerPage = 10;
+  const [loading, setLoading] = useState(true);
     const router = useRouter();
 
-    // ดึงข้อมูลและเรียงลำดับจากใหม่ไปเก่า
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -37,8 +38,6 @@ const HelloStaffs = () => {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
-
-                // เรียงข้อมูลปีการศึกษา (จากใหม่ไปเก่า)
                 const sortedData = data.sort((a, b) => b.en_year - a.en_year);
 
                 setSubjects(sortedData);
@@ -51,17 +50,30 @@ const HelloStaffs = () => {
                 setLoading(false);
             }
         };
+        setLoading(true);
 
         fetchData();
+    setLoading(false);
+
     }, []);
 
     const handleSearch = () => {
-        const filtered = subjects.filter(subject =>
+        const filtered = subjects.filter(subject => 
             subject.en_year.toString().includes(searchYear)
         );
         setFilteredSubjects(filtered);
         setTotalPages(Math.ceil(filtered.length / subjectsPerPage));
-        setCurrentPage(1);
+        setCurrentPage(1);  // Reset to first page when search changes
+    };
+
+    const handleSort = () => {
+        const sorted = [...filteredSubjects].sort((a, b) => {
+            return sortDirection === 'desc' 
+                ? b.en_year - a.en_year 
+                : a.en_year - b.en_year;
+        });
+        setFilteredSubjects(sorted);
+        setSortDirection(sortDirection === 'desc' ? 'asc' : 'desc');
     };
 
     const handlePageChange = (event, value) => {
@@ -73,6 +85,19 @@ const HelloStaffs = () => {
         currentPage * subjectsPerPage
     );
 
+    if (loading) {
+        return (
+          <div>
+            <LinearProgress
+              sx={{
+                backgroundColor: "#f1a27a",
+                "& .MuiLinearProgress-bar": { backgroundColor: "#EB6725" },
+              }}
+            />
+          </div>
+        );
+      }
+
     return (
         <center>
             <style jsx global>{`
@@ -81,19 +106,13 @@ const HelloStaffs = () => {
                     font-family: 'Noto Sans Thai', sans-serif;
                 }
             `}</style>
-
-            <img src='/bannercsb.gif' alt="Example GIF" className={styles.gif} style={{ width: "60%" }} />
+            <img src='/csbForofficers.png' className={styles.gif} style={{ width: "60%", borderRadius: "12px" }} />
             <div className={styles.content}>
                 <Paper>
                     <div className={styles.EditSub}>
                         <div style={{ color: "#07AA9F", marginTop: "3vmax" }}>
-                            <Typography 
-                                variant="h4" 
-                                style={{ fontFamily: "'Noto Sans Thai', sans-serif" }}
-                            >
-                                รายวิชาภาษาอังกฤษ
-                            </Typography>
-                        </div>
+                            <Typography variant="h4">รายวิชาภาษาอังกฤษ</Typography>
+                        </div><br />
                         <div >
                         <TextField
                             label="ปีการศึกษา"
@@ -106,7 +125,6 @@ const HelloStaffs = () => {
                             <IoSearch size={20} />
                         </Button> 
                         </div>
-
                         <br /><br />
                         {loading ? (
                             <Typography>Loading...</Typography>
@@ -126,7 +144,7 @@ const HelloStaffs = () => {
                                     <TableBody>
                                         {error ? (
                                             <TableRow>
-                                                <TableCell colSpan="6">Error: {error}</TableCell>
+                                                <TableCell colSpan="5">Error: {error}</TableCell>
                                             </TableRow>
                                         ) : (
                                             currentSubjects.map(subject => (

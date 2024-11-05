@@ -25,6 +25,7 @@ const CheckStatus = () => {
   const [grTime, setGrTime] = useState(null);
   const [grTimeUpload, setGrTimeUpload] = useState(null);
   const [grName, setGrName] = useState(null);
+  const [grResult, setGrResult] = useState(null);
   const [grId, setGrId] = useState(null);
   const router = useRouter();
 
@@ -68,9 +69,10 @@ const CheckStatus = () => {
           (res) => res.fi_id === modified_st_id
         );
         if (matchingGraduate2) {
-          setgrName(matchingGraduate2.fi_name);
+          setGrName(matchingGraduate2.fi_name);
           setGrId(matchingGraduate2.fi_id);
           setGrTimeUpload(matchingGraduate2.fi_time);
+          setGrResult(matchingGraduate2.fi_result);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -89,7 +91,8 @@ const CheckStatus = () => {
     "คะแนนทดสอบวัดความสามารถภาษาอังกฤษ",
     "ใบตรวจปริญญานิพนธ์",
     "ข้อมูล พ.ศ ขึ้นในระบบ",
-    "Digital Literacy Test",
+    "การทดสอบสมรรถภาพทางดิจิทัล (Digital Literacy Test)",
+    "เอกสารแสดงผลการเรียน (CSB08)",
   ];
 
   const handlePrint = () => {
@@ -130,7 +133,7 @@ const CheckStatus = () => {
           {loading ? (
             <Typography>...</Typography>
           ) : graduate.length === 0 || result.length === 0 ? (
-            <Typography>รอผลการตรวจสอบ</Typography> // Display a message if no data is found
+            <Typography>ยังไม่ได้ตรวจสอบการจบการศึกษา</Typography> // Display a message if no data is found
           ) : (
             <>
               <Table sx={{ color: "#07AA9F" }}>
@@ -195,6 +198,7 @@ const CheckStatus = () => {
             </>
           )}
         </Paper>
+          <h4>result: {grResult}</h4>
         <Button
           variant="contained"
           onClick={handlePrint}

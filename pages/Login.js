@@ -1,19 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import styles from "@/styles/Home.module.css";
 import axios from "axios";
 
-const Login = ({ onLogin }) => {  // Accept onLogin as a prop
+const Login = ({ onLogin }) => {
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [staffNames, setStaffNames] = useState([]);
 
+  // Fetch staff names from the database on component mount
+  useEffect(() => {
+    const fetchStaffNames = async () => {
+      try {
+        const response = await axios.get("http://localhost:4000/officers");
+        setStaffNames(response.data.map(officer => officer.of_id)); // Extract only of_id values
+        console.log("staffNames", response.data.map(officer => officer.of_id)); // Log to confirm array values
+      } catch (error) {
+        console.error("Error fetching staff names:", error);
+      }
+    };
+    fetchStaffNames();
+  }, []);
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:4000/auth/login", {
+        const response = await axios.post("http://localhost:4000/auth/login", {
         username,
         password,
       });
@@ -22,24 +36,30 @@ const Login = ({ onLogin }) => {  // Accept onLogin as a prop
         const { api_status, api_message, userInfo } = response.data;
 
         if (api_status === "success") {
-          console.log("Login successful:", userInfo);
 
-          const payload = {
-            st_id: userInfo.username,
-            st_name: userInfo.displayname,
-            st_firstname_en: userInfo.firstname_en,
-            st_lastname_en: userInfo.lastname_en,
-            st_email: userInfo.email,
-            st_account_type: userInfo.account_type,
-            st_status: true, // Assuming status is true when login is successful
-          };
-
-          await axios.post("http://localhost:4000/students", payload);
-
-          // Notify the parent component of login and pass account type
-          onLogin(true, userInfo.account_type);  // Call onLogin with parameters
-
-          router.push("/Hello");
+          if (userInfo.account_type === "students") {
+            const studentPayload = {
+              st_id: userInfo.username,
+              st_name: userInfo.displayname,
+              st_firstname_en: userInfo.firstname_en,
+              st_lastname_en: userInfo.lastname_en,
+              st_email: userInfo.email,
+              st_account_type: userInfo.account_type,
+            };
+            await axios.post("http://localhost:4000/students", studentPayload);
+            localStorage.clear(); 
+            localStorage.setItem("st_id", userInfo.username);
+            router.push("/Hello");
+          } else if (staffNames.includes(userInfo.username)) {
+            localStorage.clear(); 
+          localStorage.setItem("of_id", userInfo.username);
+          router.push("/HelloStaffs");
+          }
+          if (typeof onLogin === 'function') {
+            onLogin(true, userInfo.account_type);
+          } else {
+            console.error("onLogin is not a function");
+          }
         } else {
           setError(api_message);
         }
