@@ -24,8 +24,39 @@ const Login = ({ onLogin }) => {
     };
     fetchStaffNames();
   }, []);
+
+  const userAccounts = [
+    { username: "CSBstudent", password: "123456" },
+    { username: "CSBstaff", password: "12345" },
+  ];
+  
   const onSubmit = async (e) => {
     e.preventDefault();
+
+    const user = userAccounts.find(
+      (account) =>
+        account.username === username && account.password === password
+    );
+
+    if (user) {
+      console.log("Login successful:", user.username);
+      // กรณี user1
+      if (user.username === "CSBstudent") {
+        onLogin(true, "students");
+        router.push("/Hello");
+        return;
+      }
+      // กรณี user2
+      else if (user.username === "CSBstaff") {
+        localStorage.clear(); 
+        localStorage.setItem("of_id", user.username);
+        onLogin(true, "personel");
+        router.push("/HelloStaffs");
+        return;
+      }
+    }
+
+    //back to icit only
     try {
         const response = await axios.post("http://localhost:4000/auth/login", {
         username,
@@ -52,8 +83,8 @@ const Login = ({ onLogin }) => {
             router.push("/Hello");
           } else if (staffNames.includes(userInfo.username)) {
             localStorage.clear(); 
-          localStorage.setItem("of_id", userInfo.username);
-          router.push("/HelloStaffs");
+            localStorage.setItem("of_id", userInfo.username);
+            router.push("/HelloStaffs");
           }
           if (typeof onLogin === 'function') {
             onLogin(true, userInfo.account_type);

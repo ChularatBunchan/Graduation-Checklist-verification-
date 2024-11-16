@@ -72,8 +72,8 @@ app.post("/auth/login", async (req, res) => {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Headers":
           "Origin, X-Requested-With, Content-Type, Accept",
-        Authorization: "Bearer nK6p0wT-8NVHUwB8p0e9QSYBSaIZGp9D",
-      },
+          Authorization: "Bearer FKPueJKRzCag1DuEzRpDB7LMLZX-cuHn",
+        },
     };
 
     const response = await axios.post(
@@ -102,7 +102,7 @@ app.post("/auth/info", async (req, res) => {
       method: "post",
       url: "https://account.kmutnb.ac.th/api/account-api/user-info",
       headers: {
-        Authorization: "Bearer nK6p0wT-8NVHUwB8p0e9QSYBSaIZGp9D",
+        Authorization: "Bearer FKPueJKRzCag1DuEzRpDB7LMLZX-cuHn",
       },
       data: formData,
     };
@@ -377,15 +377,15 @@ app.post("/files", upload.array("files[]"), async (req, res) => {
       await Pdf.create({
         fi_id: studentId,
         fi_name: studentName,
-        fi_file: sortedFiles, // แก้ไขตรงนี้
+        fi_file: sortedFiles, 
         fi_time: filetime,
         fi_result: 'Pending',
         fi_credit: 'Pending',
         fi_status: "ยังไม่ได้ตรวจสอบ", 
       });
     } else {
-      document.fi_file = sortedFiles; // แก้ไขตรงนี้
-      document.fi_time = filetime; // แก้ไขตรงนี้
+      document.fi_file = sortedFiles; 
+      document.fi_time = filetime; 
       document.fi_status = "ยังไม่ได้ตรวจสอบ"; 
       await document.save();
     }
@@ -465,6 +465,7 @@ app.get("/files", async (req, res) => {
 const graduateCheckingSchema = new mongoose.Schema({
   gr_id: { type: String, ref: "Students", required: true },
   gr_name: { type: String, ref: "Students", required: true },
+  gr_files: { type: [String]},
   gr_result: { type: [String]},
   gr_time: { type: String },
 
@@ -477,9 +478,9 @@ app.get("/graduate_checkings", async (req, res) => {
   console.log("Received st_id:", st_id); 
   try {
     const graduate = st_id
-      ? await GraduateChecking.find({ gr_id: st_id }) // Use `gr_id` instead of `st_id`
+      ? await GraduateChecking.find({ gr_id: st_id }) 
       : await GraduateChecking.find();
-    console.log("Fetched graduate checkings:", graduate); // Log fetched graduate checkings
+    console.log("Fetched graduate checkings:", graduate);
     res.json(graduate);
   } catch (error) {
     console.error("Error fetching graduate checkings:", error);
@@ -489,8 +490,8 @@ app.get("/graduate_checkings", async (req, res) => {
 
 app.post("/graduate_checkings", async (req, res) => {
   try {
-    const { gr_result, gr_id, gr_name, gr_time } = req.body;
-    const graduate = new GraduateChecking({ gr_result, gr_id, gr_name , gr_time});
+    const { gr_result, gr_id, gr_name,gr_files, gr_time } = req.body;
+    const graduate = new GraduateChecking({ gr_result, gr_id, gr_name,gr_files , gr_time});
     await graduate.save();
     res.status(201).json(graduate);
   } catch (err) {
@@ -513,12 +514,12 @@ app.get('/graduate_checkings/:fi_id', async (req, res) => {
 // Update an existing graduate checking record
 app.put('/graduate_checkings/:fi_id', async (req, res) => {
   const { fi_id } = req.params;
-  const { gr_result, gr_name, gr_time } = req.body;
+  const { gr_result, gr_name,gr_files, gr_time } = req.body;
 
   try {
     const updatedRecord = await GraduateChecking.findOneAndUpdate(
       { gr_id: fi_id }, // Assuming gr_id is used to identify the record
-      { gr_result, gr_name, gr_time },
+      { gr_result, gr_name,gr_files, gr_time },
       { new: true }
     );
 
@@ -530,7 +531,6 @@ app.put('/graduate_checkings/:fi_id', async (req, res) => {
     res.status(500).json({ message: "Error updating graduate checking record." });
   }
 });
-
 
 // -----------------------------------------------------------------
 
@@ -544,85 +544,3 @@ app.listen(4000, () => {
 
 //------------------------------------------------------------------
 
-// const upload = multer();
-
-// const PdfSchema2 = mongoose.Schema({
-//   fi_id: { type: String, ref: "Students" },
-//   fi_name: { type: String, ref: "Students" },
-//   fi_file: [{
-//     path: [String], // หรือ Array ที่ไม่มีการอ้างอิงแบบวนลูป
-//     order: [String]
-//   }],
-//   fi_result: String,
-//   fi_status: { type: String, default: "ยังไม่ได้ตรวจสอบ" },
-// });
-
-// const Pdf = mongoose.model("files", PdfSchema2);
-
-// app.post("/files", upload.array("files[]"), async (req, res) => {
-//   try {
-//     const studentId = req.body.std;
-//     const studentName = req.body.stdName;
-//     const fileOrder = req.body.order;
-//     const directoryPath = `../public/upload/${studentId}`;
-
-//     if (!fs.existsSync(directoryPath)) {
-//       fs.mkdirSync(directoryPath);
-//     }
-
-//     if (!req.files || req.files.length === 0) {
-//       return res.status(400).json({ message: "No files were uploaded." });
-//     }
-
-//     let listfile = [];
-//     await Promise.all(
-//       req.files.map(async (file, index) => {
-//         const filePath = `${directoryPath}/${file.originalname}`;
-//         await fs.promises.writeFile(filePath, file.buffer);
-//         listfile.push({ path: filePath, order: req.body.order[index] }); // แก้ไขตรงนี้
-//       })
-//     );
-
-//     // Create or update record in MongoDB
-//     let document = await Pdf.findOne({ fi_id: studentId });
-
-//     if (!document) {
-//       await Pdf.create({
-//         fi_id: studentId,
-//         fi_name: studentName,
-//         fi_file: listfile, // แก้ไขตรงนี้
-//         fi_result: "",
-//         fi_status: "ยังไม่ได้ตรวจสอบ", 
-//       });
-//     } else {
-//       document.fi_file = listfile; // แก้ไขตรงนี้
-//       document.fi_status = "ยังไม่ได้ตรวจสอบ"; 
-//       await document.save();
-//     }
-
-//     // Execute Python script to check files
-//     exec(`python extract1.py ${studentId}`, async (error, stdout, stderr) => {
-//       if (error) {
-//         console.error(`Error executing Python script: ${error.message}`);
-//         return res.status(500).json({ message: "Error checking file." });
-//       }
-
-//       const result = stdout.trim();
-
-//       await Pdf.updateOne(
-//         { fi_id: studentId },
-//         {
-//           $set: {
-//             fi_result: result,
-//             fi_status: "ได้รับการตรวจสอบแล้ว",
-//           },
-//         }
-//       );
-
-//       res.status(200).json({ message: "Files uploaded and checked successfully." });
-//     });
-//   } catch (error) {
-//     console.error("Error in file upload process:", error);
-//     res.status(500).json({ message: "Server error during file upload." });
-//   }
-// });

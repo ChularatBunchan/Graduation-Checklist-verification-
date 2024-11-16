@@ -113,20 +113,29 @@ def check(file_path, student_id):
         text = extract_text_with_pymupdf(file_path)
 
         # logging.info(f"all text {text}")
-
+        
+        # หารหัสวิชา
         subject_codes = re.findall(r'(\d{9})', text)
+        
+        # หาชื่อวิชา
         subject_names = re.findall(r'\d{9}\s+([A-Z\s&]+)', text, re.DOTALL)
+        
+        # หาตอนเรียน
         sections = re.findall(r'\d{9}\s+[A-Z-\s&]+(\d+)', text)
+        
+        # หาหน่วยกิต
         credits = re.findall(r'\d{9}\s+[A-Z-\s&]+\s+\d+\s+(\d+)', text)
+        
+        # หาเกรด
         grades = re.findall(r'\b[ABCDF][+-]?\b|\bIp\b', text)
         cs_value = re.findall(r'CS\s*(\d+)', text2)
         matches_year_term = re.findall(r'ปีการศึกษา\s*(\d)/(\d+)', text)   
         
-        # print(f"รหัสวิชา (subject_codes): {len(subject_codes)}")
-        # print(f"ชื่อวิชา (subject_names): {len(subject_names)}")
-        # print(f"ตอนเรียน (sections): {len(sections)}")
-        # print(f"หน่วยกิต (credits): {len(credits)}")
-        # print(f"เกรด (grades): {len(grades)}")     
+        print(f"รหัสวิชา (subject_codes): {len(subject_codes)}")
+        print(f"ชื่อวิชา (subject_names): {len(subject_names)}")
+        print(f"ตอนเรียน (sections): {len(sections)}")
+        print(f"หน่วยกิต (credits): {len(credits)}")
+        print(f"เกรด (grades): {len(grades)}")     
         
         english_credits = 0 
         major_credits = 0 
@@ -170,11 +179,11 @@ def check(file_path, student_id):
                 continue
 
         # แสดงผลข้อมูลที่ดึงออกมา
-        # for subject in subject_data:
-        #     print(subject)
+        for subject in subject_data:
+            print(subject)
 
         pdf_df = pd.DataFrame(subject_data)
-        # print(pdf_df)
+        print(pdf_df)
            
         if not cs_value:
             logging.error("No CS value found in the PDF")
@@ -182,7 +191,7 @@ def check(file_path, student_id):
         
         last_cs_value = cs_value[-1]
         total_credits = int(last_cs_value)
-        # print(f"cs value" ,last_cs_value)
+        print(f"cs value" ,last_cs_value)
         
         terms = [term for term, _ in matches_year_term]
         years = [year for _,year in matches_year_term]
@@ -225,51 +234,52 @@ def check(file_path, student_id):
                     break
 
         # แสดงวิชาที่ตรงกัน
-        # if matched_subjects:
-        #     logging.info("Matched subjects:")
-        #     for subject in matched_subjects:
-        #         logging.info(f"Code: {subject['code']}, Name: {subject['name']}, Section: {subject['section']}, Credit: {subject['credit']}, Term: {subject['term']}, Year: {subject['year']}")
+        if matched_subjects:
+            logging.info("Matched subjects:")
+            for subject in matched_subjects:
+                logging.info(f"Code: {subject['code']}, Name: {subject['name']}, Section: {subject['section']}, Credit: {subject['credit']}, Term: {subject['term']}, Year: {subject['year']}")
 
         # คำนวณหน่วยกิตภาษาอังกฤษทั้งหมด
         Total_English_credits = english_credits + mongodb_credits
-        # print(f"Total_English_credits {Total_English_credits}")
-        # print(f"english_credits {english_credits}")
-        # print(f"mongodb_credits {mongodb_credits}")
-        # logging.info(f"หน่วยกิตรวม: {total_credits}, หน่วยกิตภาค (0406): {major_credits}, หน่วยกิตวิชาภาษาอังกฤษ (0801): {english_credits}, หน่วยกิตวิิชาที่สอนเป็นภาษาอังกฤษ: {Total_English_credits}")
+        print(f"Total_English_credits {Total_English_credits}")
+        print(f"english_credits {english_credits}")
+        print(f"mongodb_credits {mongodb_credits}")
+        logging.info(f"หน่วยกิตรวม: {total_credits}, หน่วยกิตภาค (0406): {major_credits}, หน่วยกิตวิชาภาษาอังกฤษ (0801): {english_credits}, หน่วยกิตวิิชาที่สอนเป็นภาษาอังกฤษ: {Total_English_credits}")
         
         if student_id.startswith(('57', '58', '59', '60', '61', '62', '63')):
             if total_credits >= 135 and major_credits >= 46 and english_credits >= 12 and Total_English_credits >= 67.5 and passed_project_2:
+                logging.info(f"หน่วยกิตรวม: {total_credits}, หน่วยกิตภาค (0406): {major_credits}, หน่วยกิตวิชาภาษาอังกฤษ (0801): {english_credits}, หน่วยกิตวิิชาที่สอนเป็นภาษาอังกฤษ: {Total_English_credits}")
                 result = []
-                result.append(f"ผ่านเงื่อนไขทุกข้อ")
-                result.append(f"หน่วยกิตรวม: {total_credits}, หน่วยกิตภาค (0406): {major_credits}, หน่วยกิตวิชาภาษาอังกฤษ (0801): {english_credits}, หน่วยกิตวิิชาที่สอนเป็นภาษาอังกฤษ: {Total_English_credits}")
-                return print(update_results_in_mongodb(student_id,result,Total_English_credits))
+                # result.append(f"ผ่านเงื่อนไขทุกข้อ")
+                # result.append(f"หน่วยกิตรวม: {total_credits}, หน่วยกิตภาค (0406): {major_credits}, หน่วยกิตวิชาภาษาอังกฤษ (0801): {english_credits}, หน่วยกิตวิิชาที่สอนเป็นภาษาอังกฤษ: {Total_English_credits}")
+                # return print(update_results_in_mongodb(student_id,result,Total_English_credits))
 
             else:
                 results = []
                 results.append(f"หน่วยกิตรวม: {total_credits}, หน่วยกิตภาค (0406): {major_credits}, หน่วยกิตวิชาภาษาอังกฤษ (0801): {english_credits}, หน่วยกิตวิิชาที่สอนเป็นภาษาอังกฤษ: {Total_English_credits}")
                 if total_credits < 135:
-                    # logging.info(f"Fail: Student {student_id} has insufficient total credits (has {total_credits}, needs 135).")
-                    results.append(f"ไม่ผ่าน: หน่วยกิตรวม {total_credits}/135")
+                    logging.info(f"Fail: Student {student_id} has insufficient total credits (has {total_credits}, needs 135).")
+                    # results.append(f"ไม่ผ่าน: หน่วยกิตรวม {total_credits}/135")
                     
                 if major_credits < 46:
-                    # logging.info(f"Fail: Student {student_id} has insufficient major credits (has {major_credits}, needs 46).")
-                    results.append(f"ไม่ผ่าน: หน่วตภาค {major_credits}/46).")
+                    logging.info(f"Fail: Student {student_id} has insufficient major credits (has {major_credits}, needs 46).")
+                    # results.append(f"ไม่ผ่าน: หน่วตภาค {major_credits}/46).")
                     
                 if english_credits < 12:
-                    # logging.info(f"Fail: Student {student_id} has insufficient English credits (has {english_credits}, needs 12).")
-                    results.append(f"ไม่ผ่าน: หน่วยกิตวิิชาภาษาอังกฤษ {english_credits}/12")
+                    logging.info(f"Fail: Student {student_id} has insufficient English credits (has {english_credits}, needs 12).")
+                    # results.append(f"ไม่ผ่าน: หน่วยกิตวิิชาภาษาอังกฤษ {english_credits}/12")
                     
                 if Total_English_credits < 67.5:
-                    # logging.info(f"Fail: Student {student_id} has insufficient MongoDB matched credits (has {Total_English_credits}, needs 67.5).")
-                    results.append(f"ไม่ผ่าน: หน่วยกิตวิิชาที่สอนเป็นภาษาอังกฤษ {Total_English_credits}/67.5")
+                    logging.info(f"Fail: Student {student_id} has insufficient MongoDB matched credits (has {Total_English_credits}, needs 67.5).")
+                    # results.append(f"ไม่ผ่าน: หน่วยกิตวิิชาที่สอนเป็นภาษาอังกฤษ {Total_English_credits}/67.5")
                 if not passed_project_1:
-                    # logging.info(f"ยังไม่ผ่าน โครงงานพิเศษ 1")
-                    results.append(f"ยังไม่ผ่าน โครงงานพิเศษ 1")
+                    logging.info(f"ยังไม่ผ่าน โครงงานพิเศษ 1")
+                    # results.append(f"ยังไม่ผ่าน โครงงานพิเศษ 1")
                 if not passed_project_2:
-                    # logging.info(f"ยังไม่ผ่าน โครงงานพิเศษ 2")
-                    results.append(f"ยังไม่ผ่าน โครงงานพิเศษ 2")
-                result = ";\n".join(results)
-                return print(update_results_in_mongodb(student_id,result,Total_English_credits))
+                    logging.info(f"ยังไม่ผ่าน โครงงานพิเศษ 2")
+                    # results.append(f"ยังไม่ผ่าน โครงงานพิเศษ 2")
+                # result = ";\n".join(results)
+                # return print(update_results_in_mongodb(student_id,result,Total_English_credits))
 
 
             
@@ -277,37 +287,37 @@ def check(file_path, student_id):
             if total_credits >= 128 and major_credits >= 46 and english_credits >= 12 and Total_English_credits >= 64 and passed_project_2:
                 result = []
                 # result.append(f"ผ่านเงื่อนไขทุกข้อ")
-                # logging.info(f"หน่วยกิตรวม: {total_credits}, หน่วยกิตภาค (0406): {major_credits}, หน่วยกิตวิชาภาษาอังกฤษ (0801): {english_credits}, หน่วยกิตวิิชาที่สอนเป็นภาษาอังกฤษ: {Total_English_credits}")
-                result.append(f"หน่วยกิตรวม: {total_credits}, หน่วยกิตภาค (0406): {major_credits}, หน่วยกิตวิชาภาษาอังกฤษ (0801): {english_credits}, หน่วยกิตวิิชาที่สอนเป็นภาษาอังกฤษ: {Total_English_credits}")
-                return print(update_results_in_mongodb(student_id,result,Total_English_credits))
+                logging.info(f"หน่วยกิตรวม: {total_credits}, หน่วยกิตภาค (0406): {major_credits}, หน่วยกิตวิชาภาษาอังกฤษ (0801): {english_credits}, หน่วยกิตวิิชาที่สอนเป็นภาษาอังกฤษ: {Total_English_credits}")
+                # result.append(f"หน่วยกิตรวม: {total_credits}, หน่วยกิตภาค (0406): {major_credits}, หน่วยกิตวิชาภาษาอังกฤษ (0801): {english_credits}, หน่วยกิตวิิชาที่สอนเป็นภาษาอังกฤษ: {Total_English_credits}")
+                # return print(update_results_in_mongodb(student_id,result,Total_English_credits))
 
             else:
                 results = []
                 results.append(f"หน่วยกิตรวม: {total_credits}, หน่วยกิตภาค (0406): {major_credits}, หน่วยกิตวิชาภาษาอังกฤษ (0801): {english_credits}, หน่วยกิตวิิชาที่สอนเป็นภาษาอังกฤษ: {Total_English_credits}")
                 if total_credits < 128:
-                    # logging.info(f"Fail: Student {student_id} has insufficient total credits (has {total_credits}, needs 128).")
-                    results.append(f"ไม่ผ่าน: หน่วยกิตรวม {total_credits}/128")
+                    logging.info(f"Fail: Student {student_id} has insufficient total credits (has {total_credits}, needs 128).")
+                    # results.append(f"ไม่ผ่าน: หน่วยกิตรวม {total_credits}/128")
 
                 if major_credits < 46:
-                    # logging.info(f"Fail: Student {student_id} has insufficient major credits (has {major_credits}, needs 46).")
-                    results.append(f"ไม่ผ่าน: หน่วตภาค {major_credits}/46).")
+                    logging.info(f"Fail: Student {student_id} has insufficient major credits (has {major_credits}, needs 46).")
+                    # results.append(f"ไม่ผ่าน: หน่วตภาค {major_credits}/46).")
                     
                 if english_credits < 12:
-                    # logging.info(f"Fail: Student {student_id} has insufficient English credits (has {english_credits}, needs 12).")
-                    results.append(f"ไม่ผ่าน: หน่วยกิตวิิชาภาษาอังกฤษ {english_credits}/12")
+                    logging.info(f"Fail: Student {student_id} has insufficient English credits (has {english_credits}, needs 12).")
+                    # results.append(f"ไม่ผ่าน: หน่วยกิตวิิชาภาษาอังกฤษ {english_credits}/12")
                     
                 if Total_English_credits < 64:
-                    # logging.info(f"Fail: Student {student_id} has insufficient MongoDB matched credits (has {Total_English_credits}, needs 64).")
-                    results.append(f"ไม่ผ่าน: หน่วยกิตวิิชาที่สอนเป็นภาษาอังกฤษ {Total_English_credits}/64")
+                    logging.info(f"Fail: Student {student_id} has insufficient MongoDB matched credits (has {Total_English_credits}, needs 64).")
+                    # results.append(f"ไม่ผ่าน: หน่วยกิตวิิชาที่สอนเป็นภาษาอังกฤษ {Total_English_credits}/64")
                 if not passed_project_1:
-                    # logging.info(f"ยังไม่ผ่าน โครงงานพิเศษ 1")
-                    results.append(f"ยังไม่ผ่าน โครงงานพิเศษ 1")
+                    logging.info(f"ยังไม่ผ่าน โครงงานพิเศษ 1")
+                    # results.append(f"ยังไม่ผ่าน โครงงานพิเศษ 1")
                 if not passed_project_2:
-                    # logging.info(f"ยังไม่ผ่าน โครงงานพิเศษ 2")
-                    results.append(f"ยังไม่ผ่าน โครงงานพิเศษ 2")
+                    logging.info(f"ยังไม่ผ่าน โครงงานพิเศษ 2")
+                    # results.append(f"ยังไม่ผ่าน โครงงานพิเศษ 2")
                 result = ";\n".join(results)
                 
-                return print(update_results_in_mongodb(student_id,result,Total_English_credits))
+                # return print(update_results_in_mongodb(student_id,result,Total_English_credits))
             
                 
     except Exception as e:
@@ -331,43 +341,19 @@ def check_mongodb_connection():
     except Exception as e:
         logging.error(f"Error connecting to MongoDB: {e}")
         return False
-       
-def check_mongodb_connection():
-    try:
-        db = client['test']
-        collection = db['files']
-        
-        # ลองดึงเอกสารทั้งหมด
-        all_docs = list(collection.find())
-        logging.info(f"Found {len(all_docs)} documents in collection")
-        
-        # แสดงตัวอย่างเอกสาร
-        if all_docs:
-            logging.info(f"Sample document: {all_docs[0]}")
-        
-        return True
-    except Exception as e:
-        logging.error(f"Error connecting to MongoDB: {e}")
-        return False
         
 def main():
-    if len(sys.argv) != 2:
-        sys.exit(1)
-
-    student_id = sys.argv[1]
-    files = get_files_from_mongodb(student_id)
-
-    if not files:
-        print(f"No files found for student ID: {student_id}")
-        sys.exit(1)
-
-    # Check only the first file
-    first_file_path = files[0] if files else None
-
-    if first_file_path and isinstance(first_file_path, str) and first_file_path.endswith('.pdf'):
-        check(first_file_path, student_id)
+    # student_id = '6304062616072'
+    # file_path = 'test2.pdf'    
+    # student_id = '6204062660048'
+    # file_path = 'csb-nohead.pdf'
+    student_id = '6404062663231'
+    file_path = 'csb64.pdf'
+    
+    if file_path and isinstance(file_path, str) and file_path.endswith('.pdf'):
+        check(file_path,student_id)
     else:
-        print(f"No valid PDF file found for student ID: {student_id}")
+        logging.error(f"Invalid file path: {file_path}")
 
 if __name__ == "__main__":
     main()

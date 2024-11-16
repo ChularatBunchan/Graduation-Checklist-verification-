@@ -72,7 +72,7 @@ const OffCheck = () => {
         );
         setTimeCheck(Response2.data);
         const initialStatuses = response.data.reduce((acc, file) => {
-          acc[file.fi_id] = Array(6).fill("รอผลการตรวจ");
+          acc[file.fi_id] = Array(8).fill("รอผลการตรวจ");
           return acc;
         }, {});
         setStatuses(initialStatuses);
@@ -118,6 +118,7 @@ const OffCheck = () => {
           gr_result: resultStatuses,
           gr_id: selectedFile.fi_id,
           gr_name: selectedFile.fi_name,
+          gr_files: selectedFile.fi_file,
           gr_time: uploadTime,
         });
         handleSnackbar("อัปเดตสำเร็จ!!!", "success");
@@ -127,6 +128,7 @@ const OffCheck = () => {
           gr_result: resultStatuses,
           gr_id: selectedFile.fi_id,
           gr_name: selectedFile.fi_name,
+          gr_files: selectedFile.fi_file,
           gr_time: uploadTime,
         });
         handleSnackbar("ตรวจสอบสำเร็จ!!!", "success");
@@ -298,6 +300,34 @@ const OffCheck = () => {
                           ) : (
                             "ไม่มีไฟล์"
                           )}
+                           <br />
+                      <br />
+                      {/* Check previous upload file */}
+                      {timecheck.some((time) => time.gr_id === selectedFile.fi_id) ? (
+                        timecheck
+                          .filter((time) => time.gr_id === selectedFile.fi_id)
+                          .map((data, idx) => (
+                            Array.isArray(data.gr_files) && data.gr_files[index] ? (
+                              <Link
+                                key={idx}
+                                href={`/upload/${data.gr_files[index]
+                                  .split("/")
+                                  .slice(3)
+                                  .join("/")}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                sx={{ color: "#07AA9F" }}
+                                underline="hover"
+                              >
+                                ตรวจสอบไฟล์ก่อนหน้า
+                              </Link>
+                            ) : (
+                              "แนบไฟล์ครั้งแรก"
+                            )
+                          ))
+                      ) : (
+                        "แนบไฟล์ครั้งแรก"
+                      )}
                         </TableCell>
                         <TableCell>
                           <Select
